@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-ca">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+        <!-- CDN support for Bootstrap -->
+        <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        
+        <!-- local css -->
+        <link rel="stylesheet" href="Index/CSS/Index.css" type="text/css">
+
+        <!-- Javascript for site -->
+        <script src = "Index/Js/Index.js"></script>
+
+        <title>HOME</title>
+    </head>
+
+    <body> 
+        <div class="outer">
+            <header>
+                <div class="container-fluid"> <!-- If Needed Left and Right Padding in 'md' and 'lg' screen means use container class -->
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <img class="logo" src="index/img/socketlabs-logo.png" alt="MyCompany Logo"> 
+                        </div>
+                        <div class="col-xs-8 text-center">
+                            <h1>PHP SDK Example Runner</h1>
+                        </div>
+                        <div class="col-xs-2"></div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            Select one of the following examples to see the Example Code, Message Values, and the Request/Response JSON:
+                        </div> 
+                        
+                    </div> 
+                    <br>              
+                </div>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <h4>Basic Send Examples</h4>
+                            <nav>
+                                <ul>
+                                    <li><a href="" onclick="getExample('Basic/Basic.php'); return false;">Basic Example</a></li>
+                                    <li><a href="" onclick="getExample('Basic/BasicFromHtmlFile.php'); return false;">Basic Send From Html File</a></li>
+                                    <li><a href="" onclick="getExample('Basic/BasicWithApiTemplate.php'); return false;">Basic Send API Template Example</a></li>
+                                    <li><a href="" onclick="getExample('Basic/BasicWithAsciiCharset.php'); return false;">Basic Send Ascii Charset Example</a></li>
+                                    <li><a href="" onclick="getExample('Basic/BasicWithAttachment.php'); return false;">Basic Send Attachment Example</a></li>
+                                    <li><a href="" onclick="getExample('Basic/BasicWithCustomHeaders.php'); return false;">Basic Send Custom Headers Example</a></li>
+                                    <li><a href="" onclick="getExample('Basic/BasicWithEmbeddedImage.php'); return false;">Basic Send Embedded Image Example</a></li>
+                                    <li><a href="" onclick="getExample('Basic/BasicComplexExample.php'); return false;">Basic Send Complex Example</a></li>
+                                    <li><a href="" onclick="getExample('Basic/BasicWithProxy.php'); return false;">Basic Send Using a Proxy</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <h4>Bulk Send Examples</h4>
+                            <nav>
+                                <ul>
+                                    <li><a href="" onclick="getExample('Bulk/Bulk.php'); return false;">Bulk Example</a></li>
+                                    <li><a href="" onclick="getExample('Bulk/BulkFromDataSourceWithMerge.php'); return false;">Bulk Send from Datasource with Merge Example</a></li>
+                                    <li><a href="" onclick="getExample('Bulk/BulkComplexExample.php'); return false;">Bulk Send Complex Example</a></li>
+                                    <li><a href="" onclick="getExample('Bulk/BulkWithAsciiCharsetMergeData.php'); return false;">Bulk Send Ascii Charset Merge Example</a></li>
+                                    <li><a href="" onclick="getExample('Bulk/BulkWithMergeData.php'); return false;">Bulk Send Merge Data Example</a></li>
+                                    
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <h4>Validation Error Handling Examples</h4>
+                            <nav>
+                                <ul>
+                                    <li><a href="" onclick="getExample('Basic/Invalid/BasicWithInvalidAttachment.php'); return false;">Basic Send With Invalid Attachment Example</a></li>
+                                    <li><a href="" onclick="getExample('Basic/Invalid/BasicWithInvalidFrom.php'); return false;">Basic Send With Invalid From Example</a></li>
+                                    <li><a href="" onclick="getExample('Basic/Invalid/BasicWithInvalidRecipients.php'); return false;">Basic Send With Invalid Recipients Example</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main>
+                <div>
+                    <div id="output" class="tabs hidden">
+                        <input name="tabs" type="radio" id="tab-1" checked="checked" class="input"/>
+                        <label for="tab-1" class="label">Example Code</label>
+                        <div id="codeExample" class="panel"></div>
+
+                        <input name="tabs" type="radio" id="tab-2" class="input"/>
+                        <label for="tab-2" class="label">Response JSON</label>
+                        <div id="responseJson" class="panel"><textarea></textarea></div>
+
+                        <input name="tabs" type="radio" id="tab-3" class="input"/>
+                        <label for="tab-3" class="label">Request JSON</label>
+                        <div id="requestJson" class="panel"><textarea></textarea></div>
+                    </div>
+                </div> 
+            </main>
+        </div>
+    </body>
+</html>

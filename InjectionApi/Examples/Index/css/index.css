@@ -1,0 +1,88 @@
+
+.logo {
+    height: auto;
+    width: 210px;
+    padding-top: 14px
+}
+
+hr { 
+    display: block;
+    margin-top: 0.1em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+} 
+
+main {
+	padding: 10px;
+}
+
+.tabs {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.input {
+	position: absolute;
+	opacity: 0;
+}
+
+.label {
+	width: 100%;
+	padding: 10px 20px;
+	margin-right: 1px;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 18px;
+    color: #7f7f7f;
+
+    border-top-style: solid;
+    border-right-style: solid;
+    border-left-style: solid;
+    border-width: 1px;
+    border-color: #ccc;
+}
+
+.label:hover {
+    background: #d8d8d8;
+}
+
+.label:active {
+    background: #ccc;
+}
+
+.input:checked + .label {
+	background: #f5f5f5;
+    color: #000;
+}
+
+@media (min-width: 600px) {
+	.label {
+		width: auto;
+	}
+}
+
+.panel {
+	display: none;
+    width: 100%;
+    margin-top: -5px;
+}
+
+@media (min-width: 600px) {
+	.panel {
+		order: 99;
+	}
+}
+
+.input:checked + .label + .panel {
+	display: block;
+}
+
+textarea{
+    min-width: 100%;
+    max-width: 100%;
+    resize: none;
+    height: 400px;
+}
