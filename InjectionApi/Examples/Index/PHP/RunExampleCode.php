@@ -15,7 +15,8 @@
 
         $factory = new \Socketlabs\Core\InjectionRequestFactory(exampleConfig::serverId(), exampleConfig::password());
         $request = $factory->generateRequest($message);
-        
+
+        $response->responseMessage = $response->responseMessage;
         $output = array("request"=>$request, "response"=>$response);
         
         header('Content-Type: application/json');
