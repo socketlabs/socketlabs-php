@@ -8,187 +8,187 @@ abstract class SendResult{
     /**
      * An error has occured that was unforeseen
      */
-    const UnknownError = 0;
+    const UnknownError = "UnknownError";
     
     /**
      * A timeout occurred sending the message
      */
-    const Timeout = 1;
+    const Timeout = "Timeout";
     
     /**
      * Successful send of message
      */
-    const Success = 2;
+    const Success = "Success";
     
     /**
      * Warnings were found while sending the message
      */
-    const Warning = 3;
+    const Warning = "Warning";
     
     /**
      * Internal server error
      */
-    const InternalError = 4;
+    const InternalError = "InternalError";
     
     /**
      * Message size has exceeded the size limit
      */
-    const MessageTooLarge = 5;
+    const MessageTooLarge = "MessageTooLarge";
     
     /**
      * Message exceeded maximum recipient count in the message
      */
-    const TooManyRecipients = 6;
+    const TooManyRecipients = "TooManyRecipients";
     
     /**
      * Invalid data was found on the message
      */
-    const InvalidData = 7;
+    const InvalidData = "InvalidData";
     
     /**
      * The account is over the send quota, rate limit exceeded
      */
-    const OverQuota = 8;
+    const OverQuota = "OverQuota";
     
     /**
      * Too many errors occurred sending the message
      */
-    const TooManyErrors = 9;
+    const TooManyErrors = "TooManyErrors";
     
     /**
      * The ServerId/ApiKey combination is invalid
      */
-    const InvalidAuthentication = 10;
+    const InvalidAuthentication = "InvalidAuthentication";
     
     /**
      * The account has been disabled
      */
-    const AccountDisabled = 11;
+    const AccountDisabled = "AccountDisabled";
     
     /**
      * Too many messages were found in the request
      */
-    const TooManyMessages = 12;
+    const TooManyMessages = "TooManyMessages";
     
     /**
      * No valid recipients were found in the message
      */
-    const NoValidRecipients = 13;
+    const NoValidRecipients = "NoValidRecipients";
     
     /**
      * An invalid recipient were found on the message
      */
-    const InvalidAddress = 14;
+    const InvalidAddress = "InvalidAddress";
     
     /**
      * An invalid attachment were found on the message
      */
-    const InvalidAttachment = 15;
+    const InvalidAttachment = "InvalidAttachment";
     
     /**
      * No message body was found in the message
      */
-    const NoMessages = 16;
+    const NoMessages = "NoMessages";
     
     /**
      * No message body was found in the message
      */
-    const EmptyMessage = 17;
+    const EmptyMessage = "EmptyMessage";
     
     /**
      * No subject was found in the message
      */
-    const EmptySubject = 18;
+    const EmptySubject = "EmptySubject";
     
     /**
      * An invalid from address was found on the message
      */
-    const InvalidFrom = 19;
+    const InvalidFrom = "InvalidFrom";
     
     /**
      * No To addresses were found in the message
      */
-    const EmptyToAddress = 20;
+    const EmptyToAddress = "EmptyToAddress";
     
     /**
      * No valid message body was found in the message
      */
-    const NoValidBodyParts = 21;
+    const NoValidBodyParts = "NoValidBodyParts";
     
     /**
      * An invalid TemplateId was found in the message
      */
-    const InvalidTemplateId = 22;
+    const InvalidTemplateId = "InvalidTemplateId";
     
     /**
      * The specified TemplateId has no content for the message
      */
-    const TemplateHasNoContent = 23;
+    const TemplateHasNoContent = "TemplateHasNoContent";
     
     /**
      * A conflict occurred on the message body of the message
      */
-    const MessageBodyConflict = 24;
+    const MessageBodyConflict = "MessageBodyConflict";
     
     /**
      * Invalid MergeData was found on the message
      */
-    const InvalidMergeData = 25;
+    const InvalidMergeData = "InvalidMergeData";
     
     /**
      * Authentication Error, Missing or invalid ServerId or ApiKey
      */
-    const AuthenticationValidationFailed = 26;
+    const AuthenticationValidationFailed = "AuthenticationValidationFailed";
     
     /**
      * From email address is missing in the message
      */
-    const EmailAddressValidationMissingFrom = 27;
+    const EmailAddressValidationMissingFrom = "EmailAddressValidationMissingFrom";
     
     /**
      * From email address in the message in invalid
      */
-    const EmailAddressValidationInvalidFrom = 28;
+    const EmailAddressValidationInvalidFrom = "EmailAddressValidationInvalidFrom";
     
     /**
      * Message exceeded maximum recipient count in the message
      */
-    const RecipientValidationMaxExceeded = 29;
+    const RecipientValidationMaxExceeded = "RecipientValidationMaxExceeded";
     
     /**
      * No recipients were found in the message
      */
-    const RecipientValidationNoneInMessage = 30;
+    const RecipientValidationNoneInMessage = "RecipientValidationNoneInMessage";
     
     /**
      * To addresses are missing in the message
      */
-    const RecipientValidationMissingTo = 31;
+    const RecipientValidationMissingTo = "RecipientValidationMissingTo";
     
     /**
      * Invalid ReplyTo address found
      */
-    const RecipientValidationInvalidReplyTo = 32;
+    const RecipientValidationInvalidReplyTo = "RecipientValidationInvalidReplyTo";
     
     /**
      * Invalid recipients found
      */
-    const RecipientValidationInvalidRecipients = 33;
+    const RecipientValidationInvalidRecipients = "RecipientValidationInvalidRecipients";
     
     /**
      * No subject was found in the message
      */
-    const MessageValidationEmptySubject = 34;
+    const MessageValidationEmptySubject = "MessageValidationEmptySubject";
     
     /**
      * No message body was found in the message
      */
-    const MessageValidationEmptyMessage = 35;
+    const MessageValidationEmptyMessage = "MessageValidationEmptyMessage";
     
     /**
      * Invalid custom headers found
      */
-    const MessageValidationInvalidCustomHeaders = 36;
+    const MessageValidationInvalidCustomHeaders = "MessageValidationInvalidCustomHeaders";
     
     /**
      * Get a value for a given name
@@ -203,18 +203,5 @@ abstract class SendResult{
         else {
             return false;
         }
-    }
-    
-    /**
-     * Get the name for a given value
-     * @param $value
-     * @return string
-     */
-    public static function get_name($value)
-    {
-        $class = new ReflectionClass(__CLASS__);
-        $constants = array_flip($class->getConstants());
-
-        return $constants[$value];
     }
 }
