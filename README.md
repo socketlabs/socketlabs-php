@@ -126,54 +126,54 @@ attachments, sending content that is stored in an HTML file, advanced bulk
 merging, and even pulling recipients from a datasource.
 
 
-### [Basic send example](https://github.com/socketlabs/socketlabs-php/tree/master/InjectionApi/Examples/ExampleCode/Basic/Basic.php)
+### [Basic send example](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Basic/Basic.php)
 This example demonstrates a Basic Send.
 
-### [Basic send complex example](https://github.com/socketlabs/socketlabs-php/tree/master/InjectionApi/Examples/ExampleCode/Basic/BasicComplexExample.php)
+### [Basic send complex example](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Basic/BasicComplexExample.php)
 This example demonstrates many features of the Basic Send, including adding multiple recipients, adding message and mailing id's, and adding an embedded image.
 
-### [Basic send from HTML file](https://github.com/socketlabs/socketlabs-php/tree/master/InjectionApi/Examples/ExampleCode/Basic/BasicFromHtmlFile.php)
+### [Basic send from HTML file](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Basic/BasicFromHtmlFile.php)
 This example demonstrates how to read in your HTML content from an HTML file
 rather than passing in a string directly.
 
-### [Basic send from SocketLabs API Template](https://github.com/socketlabs/socketlabs-php/tree/master/InjectionApi/Examples/ExampleCode/Basic/BasicWithApiTemplate.php)
+### [Basic send from SocketLabs API Template](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Basic/BasicWithApiTemplate.php)
 This example demonstrates the sending of a piece of content that was created in the
 SocketLabs Email Designer. This is also known as the [API Templates](https://www.socketlabs.com/blog/introducing-api-templates/) feature.
 
 ### [Basic send with specified character set](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Basic/BasicWithAsciiCharset.php)
 This example demonstrates sending with a specific character set.
 
-### [Basic send with file attachment](https://github.com/socketlabs/socketlabs-php/tree/master/InjectionApi/Examples/ExampleCode/Basic/BasicWithAttachment.php)
+### [Basic send with file attachment](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Basic/BasicWithAttachment.php)
 This example demonstrates how to add a file attachment to your message.
 
-### [Basic send with custom email headers](https://github.com/socketlabs/socketlabs-php/tree/master/InjectionApi/Examples/ExampleCode/Basic/BasicWithCustomHeaders.php)
+### [Basic send with custom email headers](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Basic/BasicWithCustomHeaders.php)
 This example demonstrates how to add custom headers to your email message.
 
-### [Basic send with embedded image](https://github.com/socketlabs/socketlabs-php/tree/master/InjectionApi/Examples/ExampleCode/Basic/BasicWithEmbeddedImage.php)
+### [Basic send with embedded image](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Basic/BasicWithEmbeddedImage.php)
 This example demonstrates how to embed an image in your message.
 
-### [Basic send with a web proxy](https://github.com/socketlabs/socketlabs-php/tree/master/InjectionApi/Examples/ExampleCode/Basic/BasicWithProxy.php)
+### [Basic send with a web proxy](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Basic/BasicWithProxy.php)
 This example demonstrates how to use a proxy with your HTTP client.
 
 
-### [Basic send with invalid file attachment](https://github.com/socketlabs/socketlabs-php/tree/master/InjectionApi/Examples/ExampleCode/Basic/Invalid/BasicWithInvalidAttachment.php)
+### [Basic send with invalid file attachment](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Basic/Invalid/BasicWithInvalidAttachment.php)
 This example demonstrates the results of attempting to do a send with an invalid attachment.
 
-### [Basic send with invalid from address](https://github.com/socketlabs/socketlabs-php/tree/master/InjectionApi/Examples/ExampleCode/Basic/Invalid/BasicWithInvalidFrom.php)
+### [Basic send with invalid from address](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Basic/Invalid/BasicWithInvalidFrom.php)
 This example demonstrates the results of attempting to do a send with an invalid from address.
 
-### [Basic send with invalid recipients](https://github.com/socketlabs/socketlabs-php/tree/master/InjectionApi/Examples/ExampleCode/Basic/Invalid/BasicWithInvalidRecipients.php)
+### [Basic send with invalid recipients](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Basic/Invalid/BasicWithInvalidRecipients.php)
 This example demonstrates the results of attempting to do a send with invalid recipients.
 
 
-### [Bulk send with multiple recipients](https://github.com/socketlabs/socketlabs-php/tree/master/InjectionApi/Examples/ExampleCode/Bulk/Bulk.php)
+### [Bulk send with multiple recipients](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Bulk/Bulk.php)
 This example demonstrates how to send a bulk message to multiple recipients.
 
-### [Bulk send with complex merge including attachments](https://github.com/socketlabs/socketlabs-php/tree/master/InjectionApi/Examples/ExampleCode/Bulk/BulkComplexExample.php)
+### [Bulk send with complex merge including attachments](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Bulk/BulkComplexExample.php)
 This example demonstrates many features of the `BulkMessage()`, including
 adding multiple recipients, merge data, and adding an attachment.
 
-### [Bulk send with recipients pulled from a datasource](https://github.com/socketlabs/socketlabs-php/tree/master/InjectionApi/Examples/ExampleCode/Bulk/BulkFromDataSourceWithMerge.php)
+### [Bulk send with recipients pulled from a datasource](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Bulk/BulkFromDataSourceWithMerge.php)
 This example uses a mock repository class to demonstrate how you would pull
 your recipients from a database and create a bulk mailing with merge data.
 
@@ -181,7 +181,7 @@ your recipients from a database and create a bulk mailing with merge data.
 This example demonstrates how to send a bulk message with a specified character
 set and special characters.
 
-### [Bulk send with merge data](https://github.com/socketlabs/socketlabs-php/tree/master/InjectionApi/Examples/ExampleCode/Bulk/BulkWithMergeData.php)
+### [Bulk send with merge data](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Bulk/BulkWithMergeData.php)
 This example demonstrates how to send a bulk message to multiple recipients with
 unique merge data per recipient.
 
