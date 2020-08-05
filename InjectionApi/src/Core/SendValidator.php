@@ -244,7 +244,7 @@ class SendValidator{
 
         if(count($invalidRecipients) >0){
             $returnValue = new \Socketlabs\SendResponse(\Socketlabs\SendResult::RecipientValidationInvalidRecipients);
-            $returnValue->AddressResults = $invalidRecipients;
+            $returnValue->addressResults = $invalidRecipients;
             return $returnValue;
         }
 
