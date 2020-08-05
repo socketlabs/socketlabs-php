@@ -12,7 +12,6 @@ $message = new BulkMessage();
 
 $message->subject = "Sending A Bulk Message with ampBody";
 $message->htmlBody = "<html>This is the Html Body of my message.</html>";
-$message->plainTextBody = "This is the Plain Text Body of my message.";
 $message->ampBody = "<!doctype html>" +
 "<html amp4email>" +
 "<head>" +
