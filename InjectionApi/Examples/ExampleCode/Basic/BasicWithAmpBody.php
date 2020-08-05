@@ -14,7 +14,8 @@ $message->subject = "Sending a Message with ampBody support";
 $message->from = new EmailAddress("from@example.com");
 $message->addToAddress(new EmailAddress("recipient1@example.com", "Recipient #1"));
 
-//Pass in the ID of the template to use as the htmlBody
+//Pass in the htmlBody with ampBody support
+$message->htmlBody = "<html><body><h1>Sending A Test Message</h1><p>This HTML will show if AMP is not supported.</p></body></html>";
 $message->ampBody = "<!doctype html>" +
 "<html amp4email>" +
 "<head>" +
