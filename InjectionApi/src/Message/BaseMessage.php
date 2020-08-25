@@ -9,20 +9,20 @@ class BaseMessage{
      * Message subject.   
      */
     public $subject;
-
-    /**
+/**
      * Plain text portion of the message body. 
      * 
      * (Optional)
-     * Atleast one of the following body types must be set: $plainTextBody, $htmlBody, or $apiTemplate.
-     */
+     * Atleast one of the following body types must be set: $plainTextBody (with ampBody), 
+     * $htmlBody (with ampBody), or $apiTemplate.     */
     public $plainTextBody;
 
     /**
      * HTML portion of the message body.
      * 
      * (Optional)
-     * Atleast one of the following body types must be set: $plainTextBody, $htmlBody, or $apiTemplate.
+     * Atleast one of the following body types must be set: $plainTextBody (with ampBody), 
+     * $htmlBody (with ampBody), or $apiTemplate.
      */
     public $htmlBody;
 
@@ -30,9 +30,19 @@ class BaseMessage{
      * Api Template Id used to specify a template to be used for the message Id. 
      * 
      * (Optional)
-     * Atleast one of the following body types must be set: $plainTextBody, $htmlBody, or $apiTemplate.
+      * Atleast one of the following body types must be set: $plainTextBody (with ampBody), 
+     * $htmlBody (with ampBody), or $apiTemplate.
      */
     public $apiTemplate;
+
+    /**
+     * AmpBody Id used to specify a template to be used for the message Id. 
+     * 
+     * (Optional)
+     * Atleast one of the following body types must be set: $plainTextBody (with ampBody), 
+     * $htmlBody (with ampBody), or $apiTemplate.    
+     */
+    public $ampBody;
 
     /**
      * Custom MailingId for the message.
