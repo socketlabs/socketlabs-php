@@ -6,7 +6,8 @@ use Socketlabs\Message\EmailAddress;
 use Socketlabs\SocketLabsClient;
 
 $client = new SocketLabsClient(exampleConfig::serverId(), exampleConfig::password());   
-$client->proxyUrl = exampleConfig::proxy();  
+$client->proxyUrl = exampleConfig::proxy(); 
+$client->requestTimeout = 60;
  
 //Build the message
 $message = new BasicMessage(); 

@@ -31,6 +31,11 @@ class SocketLabsClient{
          * Configure proxy such as fiddler if desired 
          */
         public $proxyUrl;
+        
+        /** 
+         * Configure to different timeout if desired
+         */
+        public $requestTimeout;
 
         /**
          * Creates a new instance of the SocketLabsClient.
@@ -39,6 +44,7 @@ class SocketLabsClient{
                 $this->serverId = $serverId;
                 $this->apiKey = $apiKey;
                 $this->endpointUrl = "https://inject.socketlabs.com/api/v1/email";
+                $this->requestTimeout = 120;
  
                 $this::setUserAgent();
         }
@@ -85,7 +91,7 @@ class SocketLabsClient{
                 'method' => 'POST',
                 'header' => 'Content-type: application/json',
                 'content' => json_encode($injectionRequest),
-                'timeout' => 15 
+                'timeout' => $this->requestTimeout 
              );
 
              //proxy not enabled, return these simple options
