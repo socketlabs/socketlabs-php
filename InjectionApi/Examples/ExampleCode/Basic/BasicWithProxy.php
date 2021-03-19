@@ -7,7 +7,7 @@ use Socketlabs\SocketLabsClient;
 
 $client = new SocketLabsClient(exampleConfig::serverId(), exampleConfig::password());   
 $client->proxyUrl = exampleConfig::proxy(); 
-$client->requestTimeout = 60;
+$client->requestTimeout = 10;
  
 //Build the message
 $message = new BasicMessage(); 
