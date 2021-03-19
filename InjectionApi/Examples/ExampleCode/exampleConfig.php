@@ -14,7 +14,7 @@ class exampleConfig{
     }
 
     public static function proxy() {
-        return "http://127.0.0.1:8888";
+        return "http://127.0.0.1:4433";
     }
 
     public static function endpoint() {
