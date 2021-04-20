@@ -69,39 +69,13 @@ class SocketLabsClient{
                 $factory = new Core\InjectionRequestFactory($this->serverId, $this->apiKey);
                 $newRequest = $factory->generateRequest($message); 
 
-                // echo "<p>Making Request</p>";
-                $log = fopen('d:\\log.txt', 'w') or die("unable to open file");
-                fwrite($log, "Sending Request\n");
-                fclose($log);
                 $options = $this->createStreamOptions($newRequest);
-                // $context = stream_context_create($options);
-
-                // $response = file_get_contents($this->endpointUrl, FALSE, $context);
-
-                $log = fopen('d:\\log.txt', 'a') or die("unable to open file");
-                fwrite($log, "numberOfRetries : ".$this->numberOfRetries."\n");
-                fclose($log);
 
                 $retrySettings = new RetrySettings($this->numberOfRetries);
-
-                $log = fopen('d:\\log.txt', 'a') or die("unable to open file");
-                fwrite($log, "Back From Retry Settings\n");
-                fclose($log);
-
                 $retryHandler = new Core\RetryHandler($options, $this->endpointUrl, $retrySettings);
-
-                $log = fopen('d:\\log.txt', 'a') or die("unable to open file");
-                fwrite($log, "Back From Retry Handler\n");
-                fclose($log);
-
                 list($response, $responseHeader) = $retryHandler->send();
-                $log = fopen('d:\\log.txt', 'a') or die("unable to open file");
-                fwrite($log, "Sent Request\n");
-                fclose($log);
 
                 return Core\InjectionResponseParser::parse($response, $responseHeader);
-
-                // return Core\InjectionResponseParser::parse($response, $http_response_header);
         }
 
         /**

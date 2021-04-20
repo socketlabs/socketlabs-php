@@ -6,8 +6,7 @@ use Socketlabs\Message\EmailAddress;
 use Socketlabs\SocketLabsClient;
 
 $client = new SocketLabsClient(exampleConfig::serverId(), exampleConfig::password());
-$client->endpointUrl = "http://localhost:5000/";
-// $client->proxyUrl = exampleConfig::proxy(); 
+$client->proxyUrl = exampleConfig::proxy(); 
 $client->requestTimeout = 5;
 $client->numberOfRetries = 2;
 
