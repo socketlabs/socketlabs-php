@@ -11,28 +11,47 @@ class RetrySettings{
     private $maximumNumberOfRetries;
 
     public function __construct($maximumNumberOfRetries=null){
-        if ($maximumNumberOfRetries != null){
+        $log = fopen('d:\\log.txt', 'a') or die("unable to open file");
+        fwrite($log, "In Retry Settings Constructor : ".$maximumNumberOfRetries."\n");
+        fclose($log);
+        if (!is_null($maximumNumberOfRetries)){
 
-            if ($maximumNumberOfRetries < 0) throw new InvalidArgumentException("maximumNumberOfRetries must be greater than 0");
-            if ($maximumNumberOfRetries > MAXIMUM_ALLOWED_NUMBER_OF_RETRIES) throw new InvalidArgumentException("The maximum number of allowed retries is ".MAXIMUM_ALLOWED_NUMBER_OF_RETRIES);
+            $log = fopen('d:\\log.txt', 'a') or die("unable to open file");
+            fwrite($log, "maximumNumberOfRetries is not null\n");
+            fclose($log);
+
+            if ($maximumNumberOfRetries < 0) {throw new InvalidArgumentException("maximumNumberOfRetries must be greater than 0");}
+            if ($maximumNumberOfRetries > self::MAXIMUM_ALLOWED_NUMBER_OF_RETRIES) {throw new InvalidArgumentException("The maximum number of allowed retries is ".self::MAXIMUM_ALLOWED_NUMBER_OF_RETRIES);}
 
             $this->maximumNumberOfRetries = $maximumNumberOfRetries;
+            $log = fopen('d:\\log.txt', 'a') or die("unable to open file");
+            fwrite($log, "maximumNumberOfRetries is set to : ".$maximumNumberOfRetries."\n");
+            fclose($log);
         }
         else{
-            $this->maximumNumberOfRetries = DEFAULT_NUMBER_OF_RETRIES;
+            $this->maximumNumberOfRetries = self::DEFAULT_NUMBER_OF_RETRIES;
+            $log = fopen('d:\\log.txt', 'a') or die("unable to open file");
+            fwrite($log, "maximumNumberOfRetries is a null\n");
+            fclose($log);
         }
     }
 
     public function getMaximumNumberOfRetries(){
-        return $this->maximumNumberOfRetries
+        return $this->maximumNumberOfRetries;
     }
 
     public function getNextWaitInterval($numberOfAttempts){
+        $log = fopen('d:\\log.txt', 'a') or die("unable to open file");
+        fwrite($log, "In getNextWaitInterval\n");
+        fclose($log);
         $interval = (int)min(
-            ((MINIMUM_RETRY_TIME * 1000) + getRetryDelta($numberOfAttempts)),
-            (MAXIMUM_RETRY_TIME * 1000) 
+            ((self::MINIMUM_RETRY_TIME * 1000) + RetrySettings::getRetryDelta($numberOfAttempts)),
+            (self::MAXIMUM_RETRY_TIME * 1000) 
         );
-        return $interval
+        $log = fopen('d:\\log.txt', 'a') or die("unable to open file");
+        fwrite($log, "Interval : ".$interval."\n");
+        fclose($log);
+        return $interval;
     }
 
     private static function getRetryDelta($numberOfAttempts){
