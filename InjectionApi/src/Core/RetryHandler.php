@@ -40,6 +40,7 @@ class RetryHandler{
                 
                 $attempts++;
                 sleep($waitInterval);
+                
             }
             else{
                 return array($response, $http_response_header);
