@@ -37,6 +37,11 @@ class SocketLabsClient{
          */
         public $requestTimeout;
 
+        /** 
+         * Configure to different timeout if desired
+         */
+        public $numberOfRetries;
+
         /**
          * Creates a new instance of the SocketLabsClient.
          */
@@ -45,7 +50,7 @@ class SocketLabsClient{
                 $this->apiKey = $apiKey;
                 $this->endpointUrl = "https://inject.socketlabs.com/api/v1/email";
                 $this->requestTimeout = 120;
-
+                $this->numberOfRetries = 0;
                 $this::setUserAgent();
         }
 
@@ -64,11 +69,12 @@ class SocketLabsClient{
                 $newRequest = $factory->generateRequest($message);
 
                 $options = $this->createStreamOptions($newRequest);
-                $context = stream_context_create($options);
 
-                $response = file_get_contents($this->endpointUrl, FALSE, $context);
+                $retrySettings = new RetrySettings($this->numberOfRetries);
+                $retryHandler = new Core\RetryHandler($options, $this->endpointUrl, $retrySettings);
+                list($response, $responseHeader) = $retryHandler->send();
 
-                return Core\InjectionResponseParser::parse($response, $http_response_header);
+                return Core\InjectionResponseParser::parse($response, $responseHeader);
         }
 
         /**
