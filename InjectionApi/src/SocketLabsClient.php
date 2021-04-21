@@ -19,7 +19,7 @@ class SocketLabsClient{
         private $serverId;
         private $apiKey;
 
-        const VERSION = "1.1.2";
+        const VERSION = "1.2.1";
         public $version = self::VERSION;
 
         /**
@@ -37,7 +37,7 @@ class SocketLabsClient{
          */
         public $requestTimeout;
 
-        /** 
+        /**
          * Configure to different timeout if desired
          */
         public $numberOfRetries;

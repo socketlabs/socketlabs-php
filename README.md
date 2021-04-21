@@ -155,6 +155,9 @@ This example demonstrates how to embed an image in your message.
 ### [Basic send with a web proxy](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Basic/BasicWithProxy.php)
 This example demonstrates how to use a proxy with your HTTP client.
 
+### [Basic send with retry enabled](https://github.com/socketlabs/socketlabs-php/blob/master/InjectionApi/Examples/ExampleCode/Basic/BasicWithRetry.php)
+This example demonstrates how to use the retry logic with your HTTP client.
+
 ### [Basic send with Amp ](https://github.com/socketlabs/socketlabs-php/blob/main/InjectionApi/Examples/ExampleCode/Basic/BasicWithAmpBody.php)
 This example demonstrates how to send a basic message with an AMP Html body.
 For more information about AMP please see [AMP Project](https://amp.dev/documentation/)
@@ -196,6 +199,7 @@ For more information about AMP please see [AMP Project](https://amp.dev/document
 
 <a name="version"></a>
 # Version
+* 1.2.1 - Adding optional retry logic for Http requests. If configured, the request will retry when certain 500 errors occur (500, 502, 503, 504)
 * 1.1.2 - Add support of PHP 8.0
 * 1.1.1 - Adding request timeout value on the client for Http requests
 * 1.1.0 - Adds Amp Html Support
