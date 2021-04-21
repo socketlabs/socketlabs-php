@@ -1,4 +1,4 @@
-[![SocketLabs](https://static.socketlabs.com/logos/logo-dark-326x64.png)](https://www.socketlabs.com/developers) 
+[![SocketLabs](https://static.socketlabs.com/logos/logo-dark-326x64.png)](https://www.socketlabs.com/developers)
 # [![Twitter Follow](https://img.shields.io/twitter/follow/socketlabs.svg?style=social&label=Follow)](https://twitter.com/socketlabs) [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/socketlabs/socketlabs-nodejs/blob/master/CONTRIBUTING.md)
 
 The SocketLabs Email Delivery PHP library allows you to easily send email messages via the [SocketLabs Injection API](https://www.socketlabs.com/docs/inject/).  The library makes it easy to build and send any type of message supported by the API, from a simple message to a single recipient all the way to a complex bulk message sent to a group of recipients with unique merge data per recipient.
@@ -12,7 +12,7 @@ The SocketLabs Email Delivery PHP library allows you to easily send email messag
 
 
 <a name="prerequisites-and-installation"></a>
-# Prerequisites and Installation 
+# Prerequisites and Installation
 ## Prerequisites
 * PHP 5.6 or higher
 * A SocketLabs account. If you don't have one yet, you can [sign up for a free account](https://signup.socketlabs.com/step-1?plan=free) to get started.
@@ -29,33 +29,33 @@ Alternately, you can simply [clone this repository](https://github.com/socketlab
 <a name="getting-started"></a>
 # Getting Started
 ## Obtaining your API Key and SocketLabs ServerId number
-In order to get started, you'll need to enable the Injection API feature in the [SocketLabs Control Panel](https://cp.socketlabs.com). 
-Once logged in, navigate to your SocketLabs server's dashboard (if you only have one server on your account you'll be taken here immediately after logging in). 
-Make note of your 4 or 5 digit ServerId number, as you'll need this along with 
-your API key in order to use the Injection API. 
+In order to get started, you'll need to enable the Injection API feature in the [SocketLabs Control Panel](https://cp.socketlabs.com).
+Once logged in, navigate to your SocketLabs server's dashboard (if you only have one server on your account you'll be taken here immediately after logging in).
+Make note of your 4 or 5 digit ServerId number, as you'll need this along with
+your API key in order to use the Injection API.
 
-To enable the Injection API, click on the "For Developers" dropdown on the top-level navigation, then choose the "Configure HTTP Injection API" option. 
+To enable the Injection API, click on the "For Developers" dropdown on the top-level navigation, then choose the "Configure HTTP Injection API" option.
 Once here, you can enable the feature by choosing the "Enabled" option in the
-dropdown. Enabling the feature will also generate your API key, which you'll 
-need (along with your ServerId) to start using the API. Be sure to click the 
+dropdown. Enabling the feature will also generate your API key, which you'll
+need (along with your ServerId) to start using the API. Be sure to click the
 "Update" button to save your changes once you are finished.
- 
+
 ## Basic Message
-A basic message is an email message like you'd send from a personal email client such as Outlook. 
-A basic message can have many recipients, including multiple To addresses, CC addresses, and even BCC addresses. 
+A basic message is an email message like you'd send from a personal email client such as Outlook.
+A basic message can have many recipients, including multiple To addresses, CC addresses, and even BCC addresses.
 You can also send a file attachment in a basic message.
 
-```PHP 
+```PHP
 include_once ("./socketlabs-php/InjectionApi/src/includes.php");
-//or if using composer: include_once ('./vendor/autoload.php'); 
+//or if using composer: include_once ('./vendor/autoload.php');
 
 use Socketlabs\SocketLabsClient;
 use Socketlabs\Message\BasicMessage;
 use Socketlabs\Message\EmailAddress;
 
 $client = new SocketLabsClient(000001, "YOUR-API-KEY"); //Your SocketLabs ServerId and Injection API key
- 
-$message = new BasicMessage(); 
+
+$message = new BasicMessage();
 
 $message->subject = "Sending A Basic Message";
 $message->htmlBody = "<html>This is the Html Body of my message.</html>";
@@ -68,19 +68,19 @@ $message->replyTo = new EmailAddress("replyto@example.com");
 $message->addToAddress("recipient1@example.com"); //Add a To address by passing the email address
 $message->addCcAddress("recipient2@example.com", "Recipient #2"); //Add a CC address by passing the email address and a friendly name
 $message->addBccAddress(new EmailAddress("recipient3@example.com")); //Add a BCC address by passing an EmailAddress object
- 
+
 $response = $client->send($message);
 
 ```
 
 ## Bulk Message
-A bulk message usually contains a single recipient per message 
-and is generally used to send the same content to many recipients, 
-optionally customizing the message via the use of MergeData. 
+A bulk message usually contains a single recipient per message
+and is generally used to send the same content to many recipients,
+optionally customizing the message via the use of MergeData.
 For more information about using Merge data, please see the [Injection API documentation](https://www.socketlabs.com/api-reference/injection-api/#merging).
-```PHP 
+```PHP
 include_once ("./socketlabs-php/InjectionApi/src/includes.php");
-//or if using composer: include_once ('./vendor/autoload.php'); 
+//or if using composer: include_once ('./vendor/autoload.php');
 
 use Socketlabs\Message\BulkMessage;
 use Socketlabs\Message\BulkRecipient;
@@ -88,7 +88,7 @@ use Socketlabs\Message\EmailAddress;
 use Socketlabs\SocketLabsClient;
 
 $client = new SocketLabsClient(000001, "YOUR-API-KEY"); //Your SocketLabs ServerId and Injection API key
- 
+
 //Build the message
 $message = new BulkMessage();
 $message->subject = "Sending A Bulk Message";
@@ -103,7 +103,7 @@ $recipient1->addMergeData("EyeColor", "Green");
 
 $recipient2 = $message->addToAddress("recipient2@example.com", "Recipient #2");
 $recipient2->addMergeData("EyeColor", "Blue");
- 
+
 
 //Create the client and send the message
 $response = $client->send($message);
@@ -112,17 +112,17 @@ $response = $client->send($message);
 
 <a name="managing-api-keys"></a>
 ## Managing API Keys
-For ease of demonstration, many of our examples include the ServerId and API 
-key directly in our code sample. Generally it is not considered a good practice 
-to store sensitive information like this directly in your code. 
+For ease of demonstration, many of our examples include the ServerId and API
+key directly in our code sample. Generally it is not considered a good practice
+to store sensitive information like this directly in your code.
 
 <a name="examples-and-use-cases"></a>
 # Examples and Use Cases
-In order to demonstrate the many possible use cases for the SDK, we've provided 
-an assortment of code examples. These examples demonstrate many different 
-features available to the Injection API and SDK, including using templates 
-created in the [SocketLabs Email Designer](https://www.socketlabs.com/blog/introducing-new-email-designer/), custom email headers, sending 
-attachments, sending content that is stored in an HTML file, advanced bulk 
+In order to demonstrate the many possible use cases for the SDK, we've provided
+an assortment of code examples. These examples demonstrate many different
+features available to the Injection API and SDK, including using templates
+created in the [SocketLabs Email Designer](https://www.socketlabs.com/blog/introducing-new-email-designer/), custom email headers, sending
+attachments, sending content that is stored in an HTML file, advanced bulk
 merging, and even pulling recipients from a datasource.
 
 
@@ -196,6 +196,7 @@ For more information about AMP please see [AMP Project](https://amp.dev/document
 
 <a name="version"></a>
 # Version
+* 1.1.1 - Adding request timeout value on the client for Http requests
 * 1.1.0 - Adds Amp Html Support
 * 1.0.0 - Initial Release
 
