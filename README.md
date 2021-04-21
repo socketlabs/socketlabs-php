@@ -196,6 +196,7 @@ For more information about AMP please see [AMP Project](https://amp.dev/document
 
 <a name="version"></a>
 # Version
+* 1.1.2 - Add support of PHP 8.0
 * 1.1.1 - Adding request timeout value on the client for Http requests
 * 1.1.0 - Adds Amp Html Support
 * 1.0.0 - Initial Release
