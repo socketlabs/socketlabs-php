@@ -2,7 +2,12 @@
     "name": "socketlabs/email-delivery",
     "type": "library",
     "description": "SocketLabs Email Delivery PHP Client Library ",
-    "keywords": ["socketlabs", "email", "deliverability", "transactional-email"],
+    "keywords": [
+        "socketlabs",
+        "email",
+        "deliverability",
+        "transactional-email"
+    ],
     "homepage": "https://github.com/socketlabs/socketlabs-php",
     "license": "MIT",
     "authors": [
@@ -11,12 +16,26 @@
             "email": "developers@socketlabs.com",
             "homepage": "https://www.socketlabs.com",
             "role": "Developer"
+        },
+        {
+            "name": "Bernie Harrison",
+            "email": "developers@socketlabs.com",
+            "homepage": "https://www.socketlabs.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Praneeth Chandra",
+            "email": "developers@socketlabs.com",
+            "homepage": "https://www.socketlabs.com",
+            "role": "Developer/Contributor"
         }
     ],
     "require": {
-        "php": "^5.6.0 || ^7.0"
+        "php": ">=5.6"
     },
     "autoload": {
-        "psr-4": {"Socketlabs\\": "InjectionApi/src/"}
+        "psr-4": {
+            "Socketlabs\\": "InjectionApi/src/"
+        }
     }
 }

@@ -2,7 +2,7 @@
 namespace Socketlabs;
 
 /**
- * SocketLabsClient is a wrapper for the SocketLabs Injection API that makes 
+ * SocketLabsClient is a wrapper for the SocketLabs Injection API that makes
  * it easy to send messages and parse responses.
  * Example:
  *      $client = new SocketLabsClient(00000, "apiKey");
@@ -19,20 +19,20 @@ class SocketLabsClient{
         private $serverId;
         private $apiKey;
 
-        const VERSION = "1.0.0";
+        const VERSION = "1.1.2";
         public $version = self::VERSION;
 
-        /** 
-         * Configure to different endpoint if the need arises 
+        /**
+         * Configure to different endpoint if the need arises
          */
         public $endpointUrl;
 
-        /** 
-         * Configure proxy such as fiddler if desired 
+        /**
+         * Configure proxy such as fiddler if desired
          */
         public $proxyUrl;
-        
-        /** 
+
+        /**
          * Configure to different timeout if desired
          */
         public $requestTimeout;
@@ -51,7 +51,6 @@ class SocketLabsClient{
                 $this->endpointUrl = "https://inject.socketlabs.com/api/v1/email";
                 $this->requestTimeout = 120;
                 $this->numberOfRetries = 0;
- 
                 $this::setUserAgent();
         }
 
@@ -59,7 +58,7 @@ class SocketLabsClient{
          * Sends a basic/bulk email message and returns the response from the Injection API.
          */
         public function send($message){
-            
+
                 $validationResult = Core\SendValidator::validateCredentials($this->serverId, $this->apiKey);
                 if($validationResult->result != \Socketlabs\SendResult::Success) return $validationResult;
 
@@ -67,7 +66,7 @@ class SocketLabsClient{
                 if($validationResult->result != \Socketlabs\SendResult::Success) return $validationResult;
 
                 $factory = new Core\InjectionRequestFactory($this->serverId, $this->apiKey);
-                $newRequest = $factory->generateRequest($message); 
+                $newRequest = $factory->generateRequest($message);
 
                 $options = $this->createStreamOptions($newRequest);
 
@@ -98,15 +97,15 @@ class SocketLabsClient{
                 'method' => 'POST',
                 'header' => 'Content-type: application/json',
                 'content' => json_encode($injectionRequest),
-                'timeout' => $this->requestTimeout 
+                'timeout' => $this->requestTimeout
              );
 
              //proxy not enabled, return these simple options
              if($this->proxyUrl == null){
                 return array('http' => $http);
              }
- 
-                //shape proxy url to use 'tcp'                
+
+                //shape proxy url to use 'tcp'
                 $tcpUrl = str_replace('https', 'tcp', $this->proxyUrl);
                 $tcpUrl = str_replace('http', 'tcp', $tcpUrl);
                 //set proxy
@@ -116,16 +115,16 @@ class SocketLabsClient{
                 return array(
                         "http" => $http
                         // If you are having trouble configuring a proxy tool such as fiddler, this can be a quick fix,
-                        // but it is not recommended for production. The best way is to configure the appropriate certificate 
-                        // authority property in your php.ini, for example: 'openssl.cafile'     
-                        
+                        // but it is not recommended for production. The best way is to configure the appropriate certificate
+                        // authority property in your php.ini, for example: 'openssl.cafile'
+
                         //Proxy Quick Fix:
-                        //, 
+                        //,
                         //"ssl"=> array(
                         //        "verify_peer"=>false,
                         //        "verify_peer_name"=>false,
                         //)
-                );     
+                );
              return $http;
-        } 
+        }
 }
