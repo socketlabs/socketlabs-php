@@ -1,12 +1,18 @@
 <?php
+
 namespace Socketlabs\Core;
+
+use Socketlabs\Message\EmailAddress;
+use Socketlabs\Message\BulkRecipient;
+
 /**
  * Used by the SocketLabsClient to conduct basic validation on the message before sending to the Injection API.
  */
-class SendValidator{
+class SendValidator
+{
 
     /**
-     * Maximum recipient threshold 
+     * Maximum recipient threshold
      */
     private static $MaximumRecipientsPerMessage = 50;
 
@@ -16,19 +22,16 @@ class SendValidator{
      * @param string $apiKey Your SocketLabs Injection API key.
      * @return SendResponse with the validation results
      */
-    public static function validateCredentials($serverId, $apiKey){
-        
+    public static function validateCredentials($serverId, $apiKey)
+    {
+
         $sendResponse = new \Socketlabs\SendResponse();
 
-        if(!is_string($apiKey) || ctype_space($apiKey) || $apiKey == ""){
+        if (!is_string($apiKey) || ctype_space($apiKey) || $apiKey == "") {
             $sendResponse->result = \Socketlabs\SendResult::AuthenticationValidationFailed;
-        }
-
-        else if(!is_numeric($serverId) || (int)$serverId <=0 ) {
+        } else if (!is_numeric($serverId) || (int)$serverId <= 0) {
             $sendResponse->result = \Socketlabs\SendResult::AuthenticationValidationFailed;
-        }
-
-        else{
+        } else {
             $sendResponse->result = \Socketlabs\SendResult::Success;
         }
 
@@ -37,15 +40,15 @@ class SendValidator{
 
     /**
      * Validate a basic/bulk email message before sending to the Injection API.
-     * @param string $message
+     * @param object $message
      * @return SendResponse with the validation results
      */
-    public static function validateMessage($message){
-       
-        if(is_a($message, "Socketlabs\Message\BasicMessage")){
+    public static function validateMessage($message)
+    {
+
+        if (is_a($message, "Socketlabs\Message\BasicMessage")) {
             return SendValidator::validateBasicMessage($message);
-        }
-        else if (is_a($message, "Socketlabs\Message\BulkMessage")){
+        } else if (is_a($message, "Socketlabs\Message\BulkMessage")) {
             return SendValidator::validateBulkMessage($message);
         }
         return new \Socketlabs\SendResponse(\Socketlabs\SendResult::InvalidData);
@@ -53,28 +56,28 @@ class SendValidator{
 
     /**
      * Validate a bulk email message.
-     * @param string $message
+     * @param object $message
      * @return SendResponse with the validation results
      */
-    private static function validateBulkMessage($message){
+    private static function validateBulkMessage($message)
+    {
         $validationResult = SendValidator::validateBaseMessage($message);
 
-        if($validationResult->result == \Socketlabs\SendResult::Success) {
-            foreach($message->to as &$to)if(is_string($to))$to=new BulkRecipient($to);
-    
+        if ($validationResult->result == \Socketlabs\SendResult::Success) {
+            foreach ($message->to as &$to) if (is_string($to)) $to = new BulkRecipient($to);
+
             $allRecipients = $message->to;
-    
+
             $count = count($allRecipients);
-    
-            if($count<=0) $validationResult = new \Socketlabs\SendResponse(\Socketlabs\SendResult::RecipientValidationNoneInMessage);
-    
-            else if($count > SendValidator::$MaximumRecipientsPerMessage) $validationResult = new \Socketlabs\SendResponse(\Socketlabs\SendResult::RecipientValidationMaxExceeded);
-            
+
+            if ($count <= 0) $validationResult = new \Socketlabs\SendResponse(\Socketlabs\SendResult::RecipientValidationNoneInMessage);
+
+            else if ($count > SendValidator::$MaximumRecipientsPerMessage) $validationResult = new \Socketlabs\SendResponse(\Socketlabs\SendResult::RecipientValidationMaxExceeded);
+
             else $validationResult = SendValidator::validateRecipients($allRecipients);
-    
         }
 
-        if($validationResult->result == \Socketlabs\SendResult::Success) {
+        if ($validationResult->result == \Socketlabs\SendResult::Success) {
             $validationResult = SendValidator::validateMergeData($message->to);
         }
 
@@ -83,119 +86,125 @@ class SendValidator{
 
     /**
      * Validate a basic email message.
-     * @param string $message
+     * @param object $message
      * @return SendResponse with the validation results
      */
-    private static function validateBasicMessage($message){
+    private static function validateBasicMessage($message)
+    {
         $validationResult = SendValidator::validateBaseMessage($message);
 
-        if($validationResult->result == \Socketlabs\SendResult::Success) {
-            foreach($message->to as &$to)if(is_string($to))$to=new EmailAddress($to);
-            foreach($message->cc as &$cc)if(is_string($cc))$cc=new EmailAddress($cc);
-            foreach($message->bcc as &$bcc)if(is_string($bcc))$bcc=new EmailAddress($bcc);
-    
+        if ($validationResult->result == \Socketlabs\SendResult::Success) {
+            foreach ($message->to as &$to) if (is_string($to)) $to = new EmailAddress($to);
+            foreach ($message->cc as &$cc) if (is_string($cc)) $cc = new EmailAddress($cc);
+            foreach ($message->bcc as &$bcc) if (is_string($bcc)) $bcc = new EmailAddress($bcc);
+
             $allRecipients = array_merge($message->to, $message->cc, $message->bcc);
-    
+
             $count = count($allRecipients);
-    
-            if($count<=0) $validationResult = new \Socketlabs\SendResponse(\Socketlabs\SendResult::RecipientValidationNoneInMessage);
-    
-            else if($count > SendValidator::$MaximumRecipientsPerMessage) $validationResult = new \Socketlabs\SendResponse(\Socketlabs\SendResult::RecipientValidationMaxExceeded);
-            
+
+            if ($count <= 0) $validationResult = new \Socketlabs\SendResponse(\Socketlabs\SendResult::RecipientValidationNoneInMessage);
+
+            else if ($count > SendValidator::$MaximumRecipientsPerMessage) $validationResult = new \Socketlabs\SendResponse(\Socketlabs\SendResult::RecipientValidationMaxExceeded);
+
             else $validationResult = SendValidator::validateRecipients($allRecipients);
-    
         }
-        
+
         return $validationResult;
     }
 
     /**
      * Validate the base email message.
-     * @param string $message
+     * @param object $message
      * @return SendResponse with the validation results
      */
-    private static function validateBaseMessage($message){
-        if(!SendValidator::HasSubject($message)){
+    private static function validateBaseMessage($message)
+    {
+        if (!SendValidator::HasSubject($message)) {
             return new \Socketlabs\SendResponse(\Socketlabs\SendResult::MessageValidationEmptySubject);
-        }
-        else if(!SendValidator::hasValidFrom($message)){
+        } else if (!SendValidator::hasValidFrom($message)) {
             return new \Socketlabs\SendResponse(\Socketlabs\SendResult::EmailAddressValidationInvalidFrom);
-        }
-        else if(!SendValidator::hasValidReplyTo($message)){
+        } else if (!SendValidator::hasValidReplyTo($message)) {
             return new \Socketlabs\SendResponse(\Socketlabs\SendResult::RecipientValidationInvalidReplyTo);
-        }
-        else if(!SendValidator::hasMessageBody($message)){
+        } else if (!SendValidator::hasMessageBody($message)) {
             return new \Socketlabs\SendResponse(\Socketlabs\SendResult::MessageValidationEmptyMessage);
-        }
-        else if(!SendValidator::hasValidCustomHeaders($message)){
+        } else if (!SendValidator::hasValidCustomHeaders($message)) {
             return new \Socketlabs\SendResponse(\Socketlabs\SendResult::MessageValidationInvalidCustomHeaders);
-        }
-        else{
+        } else {
             return new \Socketlabs\SendResponse(\Socketlabs\SendResult::Success);
         }
     }
 
     /**
-     * Check if the message has a subject 
-     * @param string $message
+     * Check if the message has a subject
+     * @param object $message
      * @return boolean
      */
-    private static function hasSubject($message){
+    private static function hasSubject($message)
+    {
         $subject = $message->subject;
-        if(is_string($subject) && !ctype_space($subject) && $subject != "") return true;
+        if (is_string($subject) && !ctype_space($subject) && $subject != "") return true;
         return false;
     }
 
     /**
      * Check if the message has a valid From Email Address
-     * @param string $message
+     * @param object $message
      * @return boolean
      */
-    private static function hasValidFrom($message){
+    private static function hasValidFrom($message)
+    {
         $from = $message->from;
-        if($from == null) return false; 
-        if(is_a($from, "Socketlabs\Message\EmailAddress") && $from->isValid()) return true;
+        if ($from == null) return false;
+        if (is_a($from, "Socketlabs\Message\EmailAddress") && $from->isValid()) return true;
         return false;
     }
 
     /**
      * If set, check if a ReplyTo email address is valid
-     * @param string $message
+     * @param object $message
      * @return boolean
      */
-    public static function hasValidReplyTo($message){
+    public static function hasValidReplyTo($message)
+    {
         $replyTo = $message->replyTo;
-        if($replyTo == null) return true; //The value is allowed to be null. 
-        if(is_a($replyTo,  "Socketlabs\Message\EmailAddress") && $replyTo->isValid()) return true;
+        if ($replyTo == null) return true; //The value is allowed to be null.
+        if (is_a($replyTo,  "Socketlabs\Message\EmailAddress") && $replyTo->isValid()) return true;
         return false;
     }
 
     /**
      * Check if the message has a Message Body
      * If an Api Template is specified it will override the HtmlBody and/or the PlainTextBody.
-     * If no Api Template is specified the HtmlBody and/or the PlainTextBody must me set
+     * If no Api Template is specified the HtmlBody AND the PlainTextBody must be valid
      * </remarks>
-     * @param string $message
+     * @param object $message
      * @return boolean
      */
-    public static function hasMessageBody($message){
+    public static function hasMessageBody($message)
+    {
         $hasApiTemplate = SendValidator::HasApiTemplate($message);
-        if($hasApiTemplate === true) return true;
+        if ($hasApiTemplate === true) {
+            //If there is a api template, null out the html and text portions of the message
+            $message->htmlBody = null;
+            $message->plainTextBody = null;
+            return true;
+        }
         $htmlBody = $message->htmlBody;
-        if(is_string($htmlBody) && !ctype_space($htmlBody) && $htmlBody != "")return true;
+        if (!is_string($htmlBody) || ctype_space($htmlBody) || $htmlBody == "") return false;
         $textBody = $message->plainTextBody;
-        if(is_string($textBody) && !ctype_space($textBody) && $textBody != "")return true;
-        return false;
+        if (!is_string($htmlBody) || ctype_space($htmlBody) || $htmlBody == "") return true;
+        return true;
     }
 
     /**
      * Check if an ApiTemplate was specified and is valid
-     * @param string $message
+     * @param object $message
      * @return boolean
      */
-    public static function hasApiTemplate($message){
+    public static function hasApiTemplate($message)
+    {
         $apiTemplate = $message->apiTemplate;
-        if(is_numeric($apiTemplate) && (int)$apiTemplate >0) return true;
+        if (is_numeric($apiTemplate) && (int)$apiTemplate > 0) return true;
         return false;
     }
 
@@ -204,26 +213,26 @@ class SendValidator{
      * @param string $customHeaders
      * @return boolean
      */
-    public static function hasValidCustomHeaders($message){
+    public static function hasValidCustomHeaders($message)
+    {
         $customHeaders = $message->customHeaders;
 
-        if(!is_array($customHeaders)) return false;
+        if (!is_array($customHeaders)) return false;
 
         $validCustomHeaders = true;
 
-        while($validCustomHeaders && $customHeader = current($customHeaders)){
-            if(is_a($customHeader, "Socketlabs\Message\CustomHeader")){
+        while ($validCustomHeaders && $customHeader = current($customHeaders)) {
+            if (is_a($customHeader, "Socketlabs\Message\CustomHeader")) {
                 $validCustomHeaders = $validCustomHeaders &&
-                SendValidator::not_empty($customHeader->name) &&
-                SendValidator::not_empty($customHeader->value);
-            }
-            else{
+                    SendValidator::not_empty($customHeader->name) &&
+                    SendValidator::not_empty($customHeader->value);
+            } else {
                 $key = key($customHeaders);
-                $validCustomHeaders = $validCustomHeaders && 
-                SendValidator::not_empty($key) &&
-                SendValidator::not_empty($customHeader);
-            }  
-            next($customHeaders);  
+                $validCustomHeaders = $validCustomHeaders &&
+                    SendValidator::not_empty($key) &&
+                    SendValidator::not_empty($customHeader);
+            }
+            next($customHeaders);
         }
         return $validCustomHeaders;
     }
@@ -235,14 +244,15 @@ class SendValidator{
      * b) Cumulative count of recipients in all 3 lists do not exceed the MaximumRecipientsPerMessage.
      * c) Recipients in lists are valid.
      * If errors are found, the SendResponse will contain the invalid email addresses
-     * @param string $message
+     * @param array $recipients
      * @return SendResponse with the validation results
      */
-    private static function validateRecipients($recipients){
+    private static function validateRecipients($recipients)
+    {
 
         $invalidRecipients = SendValidator::hasInvalidRecipients($recipients);
 
-        if(count($invalidRecipients) >0){
+        if (count($invalidRecipients) > 0) {
             $returnValue = new \Socketlabs\SendResponse(\Socketlabs\SendResult::RecipientValidationInvalidRecipients);
             $returnValue->addressResults = $invalidRecipients;
             return $returnValue;
@@ -254,19 +264,20 @@ class SendValidator{
     /**
      * Check all 3 recipient lists To, Cc, and Bcc (List of EmailAddress) for valid email addresses
      * @param string $message
-     * @return A List of AddressResult if an invalid email address is found.
+     * @return array of AddressResult if an invalid email address is found.
      */
-    private static function hasInvalidRecipients($recipients){
+    private static function hasInvalidRecipients($recipients)
+    {
         $invalidEmails = array();
-        foreach($recipients as $recipient){
-            if(is_a($recipient, "Socketlabs\Message\EmailAddress") && $recipient->isValid()){
+        foreach ($recipients as $recipient) {
+            if (is_a($recipient, "Socketlabs\Message\EmailAddress") && $recipient->isValid()) {
                 continue;
             }
             $addressResult = new \Socketlabs\AddressResult();
             $addressResult->accepted = false;
             $addressResult->errorCode = "InvalidAddress";
             $addressResult->emailAddress = $recipient->emailAddress;
-            
+
             $invalidEmails[] = $addressResult;
         }
         return $invalidEmails;
@@ -277,32 +288,32 @@ class SendValidator{
      * @param array $recipients
      * @return array
      */
-    private static function getRecipientsWithInvalidMergeData($recipients){
+    private static function getRecipientsWithInvalidMergeData($recipients)
+    {
         $invalidRecipient = array();
-        foreach($recipients as $recipient){
+        foreach ($recipients as $recipient) {
             $names = array();
-            foreach($recipient->mergeData as $mergeData){
-                if($mergeData->Name && is_string($mergeData->Name) && is_string($mergeData->Value)){
+            foreach ($recipient->mergeData as $mergeData) {
+                if ($mergeData->Name && is_string($mergeData->Name) && is_string($mergeData->Value)) {
                     $names[] = $mergeData->Name;
-                }
-                else{
+                } else {
                     $addressResult = new \Socketlabs\AddressResult();
                     $addressResult->accepted = false;
                     $addressResult->errorCode = "InvalidMergeData";
                     $addressResult->emailAddress = $recipient->emailAddress;
-        
+
                     $invalidRecipient[] = $addressResult;
                     break;
                 }
             }
-            if(count(SendValidator::array_iunique($names))  !== count($names)){
+            if (count(SendValidator::array_iunique($names))  !== count($names)) {
                 $addressResult = new \Socketlabs\AddressResult();
                 $addressResult->accepted = false;
                 $addressResult->errorCode = "InvalidMergeData";
                 $addressResult->emailAddress = $recipient->emailAddress;
-    
+
                 $invalidRecipient[] = $addressResult;
-        }
+            }
         }
         return $invalidRecipient;
     }
@@ -312,15 +323,16 @@ class SendValidator{
      * @param array $recipients
      * @returns boolean
      */
-    private static function validateMergeData($recipients){
+    private static function validateMergeData($recipients)
+    {
         $recipientsWithInvalidMergeData = SendValidator::getRecipientsWithInvalidMergeData($recipients);
-        
-        if(count($recipientsWithInvalidMergeData) >0){
+
+        if (count($recipientsWithInvalidMergeData) > 0) {
             $sendResponse = new \Socketlabs\SendResponse(\Socketlabs\SendResult::InvalidMergeData);
             $sendResponse->addressResults = $recipientsWithInvalidMergeData;
             return $sendResponse;
-        } 
-        
+        }
+
         return new \Socketlabs\SendResponse(\Socketlabs\SendResult::Success);
     }
 
@@ -329,10 +341,11 @@ class SendValidator{
      * @param array $array
      * @return array
      */
-    private static function array_iunique($array) {
+    private static function array_iunique($array)
+    {
         return array_intersect_key(
             $array,
-            array_unique(array_map("StrToLower",$array))
+            array_unique(array_map("StrToLower", $array))
         );
     }
 
@@ -341,7 +354,8 @@ class SendValidator{
      * @param string $value
      * @return boolean
      */
-    private static function not_empty($value){
+    private static function not_empty($value)
+    {
         return is_string($value) && !ctype_space($value) && $value != "";
     }
 }
