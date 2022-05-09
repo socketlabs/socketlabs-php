@@ -192,7 +192,7 @@ class SendValidator
         $htmlBody = $message->htmlBody;
         if (!is_string($htmlBody) || ctype_space($htmlBody) || $htmlBody == "") return false;
         $textBody = $message->plainTextBody;
-        if (!is_string($htmlBody) || ctype_space($htmlBody) || $htmlBody == "") return true;
+        if (!is_string($textBody) || ctype_space($textBody) || $textBody == "") return false;
         return true;
     }
 
