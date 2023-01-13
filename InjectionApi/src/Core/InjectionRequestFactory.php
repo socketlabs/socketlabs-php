@@ -54,12 +54,16 @@ class InjectionRequestFactory
         $messageJson->MessageId = $message->messageId;
         $messageJson->CharSet = $message->charset;
         $messageJson->ApiTemplate = $message->apiTemplate;
+        $messageJson->Tags = $message->tags == null ? null : $message->tags;
 
         //set attachments
         $messageJson->Attachments = $this->getAttachments($message->attachments);
 
         //set custom headers
         $messageJson->CustomHeaders = $this->getCustomHeaders($message->customHeaders);
+
+        //set metadata
+        $messageJson->Metadata = $this->getMetadata($message->metadata);
 
         //set from address
         $messageJson->From = new \Socketlabs\Core\Serialization\AddressJson($message->from->emailAddress, $message->from->friendlyName);
@@ -122,7 +126,6 @@ class InjectionRequestFactory
         return $request;
     }
 
-
     /**
      * Shapes list of email addresses into injection api format
      * @param EmailAddress $emailAddress
@@ -178,18 +181,44 @@ class InjectionRequestFactory
      */
     private function getCustomHeaders($customHeaders)
     {
+
         if ($customHeaders == null) return null;
 
         $results = array();
 
         while ($customHeader = current($customHeaders)) {
-            if (is_a($customHeader, "CustomHeader")) {
+            if (is_a($customHeader, "\Socketlabs\Message\CustomHeader")) {
                 $results[] = new \Socketlabs\Core\Serialization\CustomHeadersJson($customHeader->name, $customHeader->value);
             } else {
                 $key = key($customHeaders);
                 $results[] = new \Socketlabs\Core\Serialization\CustomHeadersJson($key, $customHeader);
             }
             next($customHeaders);
+        }
+
+        return $results;
+    }
+
+    /**
+     * Helper function to map array of Metadata to MetadataJson
+     * @param array $arr
+     * @return array
+     */
+    private function getMetadata($arr)
+    {
+
+        if ($arr == null) return null;
+
+        $results = array();
+
+        while ($metadata = current($arr)) {
+            if (is_a($metadata, "\Socketlabs\Message\Metadata")) {
+                $results[] = new \Socketlabs\Core\Serialization\MetadataJson($metadata->name, $metadata->value);
+            } else {
+                $key = key($arr);
+                $results[] = new \Socketlabs\Core\Serialization\MetadataJson($key, $metadata);
+            }
+            next($arr);
         }
 
         return $results;

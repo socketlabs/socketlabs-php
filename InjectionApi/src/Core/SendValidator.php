@@ -129,6 +129,10 @@ class SendValidator
             return new \Socketlabs\SendResponse(\Socketlabs\SendResult::MessageValidationEmptyMessage);
         } else if (!SendValidator::hasValidCustomHeaders($message)) {
             return new \Socketlabs\SendResponse(\Socketlabs\SendResult::MessageValidationInvalidCustomHeaders);
+        } else if (!SendValidator::hasValidMetadata($message)) {
+            return new \Socketlabs\SendResponse(\Socketlabs\SendResult::MessageValidationInvalidMetadata);
+        } else if (!SendValidator::hasValidTags($message)) {
+            return new \Socketlabs\SendResponse(\Socketlabs\SendResult::MessageValidationInvalidTag);
         } else {
             return new \Socketlabs\SendResponse(\Socketlabs\SendResult::Success);
         }
@@ -210,7 +214,7 @@ class SendValidator
 
     /**
      * Check if ICustomHeader in List are valid
-     * @param string $customHeaders
+     * @param object $customHeaders
      * @return boolean
      */
     public static function hasValidCustomHeaders($message)
@@ -235,6 +239,55 @@ class SendValidator
             next($customHeaders);
         }
         return $validCustomHeaders;
+    }
+
+    /**
+     * Check if metadata is valid
+     * @param object $message
+     * @return boolean
+     */
+    public static function hasValidMetadata($message)
+    {
+        $arr = $message->metadata;
+
+        if (!is_array($arr)) return false;
+
+        $validMetadata = true;
+
+        while ($validMetadata && $metadata = current($arr)) {
+            if (is_a($metadata, "Socketlabs\Message\Metadata")) {
+                $validMetadata = $validMetadata &&
+                    SendValidator::not_empty($metadata->name) &&
+                    SendValidator::not_empty($metadata->value);
+            } else {
+                $key = key($arr);
+                $validMetadata = $validMetadata &&
+                    SendValidator::not_empty($key) &&
+                    SendValidator::not_empty($metadata);
+            }
+            next($arr);
+        }
+        return $validMetadata;
+    }
+
+    /**
+     * Check if tags are valid
+     * @param object $message
+     * @return boolean
+     */
+    public static function hasValidTags($message)
+    {
+        $arr = $message->tags;
+
+        if (!is_array($arr)) return false;
+
+        $validTags = true;
+
+        while ($validTags && $tag = current($arr)) {
+            $validTags = SendValidator::not_empty($tag);
+            next($arr);
+        }
+        return $validTags;
     }
 
     /**

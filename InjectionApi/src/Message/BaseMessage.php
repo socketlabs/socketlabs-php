@@ -94,6 +94,16 @@ class BaseMessage
     public $customHeaders = array();
 
     /**
+     * Optional array of custom headers.
+     */
+    public $metadata = array();
+
+    /**
+     * Optional array of custom headers.
+     */
+    public $tags = array();
+
+    /**
      * Adds custom header to the message.
      *
      * @param string $name Header name.
@@ -106,6 +116,22 @@ class BaseMessage
         if (!is_string($value)) throw new \InvalidArgumentException("The custom value property must be type string.");
         $customHeader = new CustomHeader($name, $value);
         $this->customHeaders[] = $customHeader;
+        return $this;
+    }
+
+    /**
+     * Adds metadata to the message.
+     *
+     * @param string $name metadata name.
+     * @param string $value metadata value.
+     * @return BaseMessage Message Instance.
+     */
+    public function addMetadata($name, $value)
+    {
+        if (!is_string($name)) throw new \InvalidArgumentException("The metadata name property must be type string.");
+        if (!is_string($value)) throw new \InvalidArgumentException("The metadata value property must be type string.");
+        $metadata = new Metadata($name, $value);
+        $this->metadata[] = $metadata;
         return $this;
     }
 }

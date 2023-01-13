@@ -1,12 +1,15 @@
 <?php
+
 namespace Socketlabs\Message;
+
 /**
  * A basic email message similar to one created in a personal email client such as Outlook.
  * This message can have many recipients of different types, such as To, CC, and BCC.  This
  * message does not support merge fields.
  */
-class BasicMessage extends BaseMessage{
-    
+class BasicMessage extends BaseMessage
+{
+
     /**
      * Array of To recipients. When adding directly to array, EmailAddress type should be used.
      */
@@ -17,7 +20,7 @@ class BasicMessage extends BaseMessage{
      */
     public $cc = array();
 
-     /**
+    /**
      * Array of BCC recipients. When adding directly to array, EmailAddress type should be used.
      */
     public $bcc = array();
@@ -27,14 +30,13 @@ class BasicMessage extends BaseMessage{
      * @param string $emailAddress Recipient's email address.
      * @param string $friendlyName Recipient's friendly name.
      */
-    public function addToAddress($emailAddress, $friendlyName = null){
-        if(is_string($emailAddress)){
+    public function addToAddress($emailAddress, $friendlyName = null)
+    {
+        if (is_string($emailAddress)) {
             $this->to[] = new \Socketlabs\Message\EmailAddress($emailAddress, $friendlyName = null);
-        }
-        else if(is_a($emailAddress, "\Socketlabs\Message\EmailAddress")){
+        } else if (is_a($emailAddress, "\Socketlabs\Message\EmailAddress")) {
             $this->to[] = $emailAddress;
-        }
-        else{
+        } else {
             throw new \InvalidArgumentException("Socketlabs\\Message\\BaseMessage::addToAddress() parameter must be type string or type EmailAddress.");
         }
     }
@@ -44,14 +46,13 @@ class BasicMessage extends BaseMessage{
      * @param string $emailAddress Recipient's email address.
      * @param string $friendlyName Recipient's friendly name.
      */
-    public function addCcAddress($emailAddress, $friendlyName = null){
-        if(is_string($emailAddress)){
-            $this->cc[] = new EmailAddress($emailAddress, $friendlyName );
-        }
-        else if(is_a($emailAddress, "\Socketlabs\Message\EmailAddress")){
+    public function addCcAddress($emailAddress, $friendlyName = null)
+    {
+        if (is_string($emailAddress)) {
+            $this->cc[] = new EmailAddress($emailAddress, $friendlyName);
+        } else if (is_a($emailAddress, "\Socketlabs\Message\EmailAddress")) {
             $this->cc[] = $emailAddress;
-        }
-        else{
+        } else {
             throw new \InvalidArgumentException("Socketlabs\\Message\\BaseMessage::addCcAddress() parameter must be type string or type EmailAddress.");
         }
     }
@@ -61,16 +62,14 @@ class BasicMessage extends BaseMessage{
      * @param string $emailAddress Recipient's email address.
      * @param string $friendlyName Recipient's friendly name.
      */
-    public function addBccAddress($emailAddress, $friendlyName = null){
-        if(is_string($emailAddress)){
-            $this->emailAddress[] = new EmailAddress($emailAddress, $friendlyName );
-        }
-        else if(is_a($emailAddress, "Socketlabs\Message\EmailAddress")){
+    public function addBccAddress($emailAddress, $friendlyName = null)
+    {
+        if (is_string($emailAddress)) {
+            $this->bcc[] = new EmailAddress($emailAddress, $friendlyName);
+        } else if (is_a($emailAddress, "Socketlabs\Message\EmailAddress")) {
             $this->bcc[] = $emailAddress;
-        }
-        else{
+        } else {
             throw new \InvalidArgumentException("Socketlabs\\Message\\BaseMessage::addBccAddress() parameter must be type string or type EmailAddress.");
         }
     }
-
 }
