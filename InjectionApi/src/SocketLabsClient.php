@@ -56,6 +56,7 @@ class SocketLabsClient{
 
         /**
          * Sends a basic/bulk email message and returns the response from the Injection API.
+         * @return SendResponse
          */
         public function send($message){
 
@@ -111,20 +112,19 @@ class SocketLabsClient{
                 //set proxy
                 $http += ['proxy' => $tcpUrl];
 
-                //include ssl options
-                return array(
-                        "http" => $http
-                        // If you are having trouble configuring a proxy tool such as fiddler, this can be a quick fix,
-                        // but it is not recommended for production. The best way is to configure the appropriate certificate
-                        // authority property in your php.ini, for example: 'openssl.cafile'
+             //include ssl options
+             return array(
+                    "http" => $http
+                    // If you are having trouble configuring a proxy tool such as fiddler, this can be a quick fix,
+                    // but it is not recommended for production. The best way is to configure the appropriate certificate
+                    // authority property in your php.ini, for example: 'openssl.cafile'
 
-                        //Proxy Quick Fix:
-                        //,
-                        //"ssl"=> array(
-                        //        "verify_peer"=>false,
-                        //        "verify_peer_name"=>false,
-                        //)
-                );
-             return $http;
+                    //Proxy Quick Fix:
+                    //,
+                    //"ssl"=> array(
+                    //        "verify_peer"=>false,
+                    //        "verify_peer_name"=>false,
+                    //)
+             );
         }
 }

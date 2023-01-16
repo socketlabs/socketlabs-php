@@ -10,14 +10,18 @@ class BaseMessage
 
     /**
      * Message subject.
+     * @var string|null
      */
     public $subject;
+
     /**
      * Plain text portion of the message body.
      *
      * (Optional)
      * Atleast one of the following body types must be set: $plainTextBody (with ampBody),
-     * $htmlBody (with ampBody), or $apiTemplate.     */
+     * $htmlBody (with ampBody), or $apiTemplate.
+     * @var string|null
+     */
     public $plainTextBody;
 
     /**
@@ -26,6 +30,7 @@ class BaseMessage
      * (Optional)
      * Atleast one of the following body types must be set: $plainTextBody (with ampBody),
      * $htmlBody (with ampBody), or $apiTemplate.
+     * @var string|null
      */
     public $htmlBody;
 
@@ -35,6 +40,7 @@ class BaseMessage
      * (Optional)
      * Atleast one of the following body types must be set: $plainTextBody (with ampBody),
      * $htmlBody (with ampBody), or $apiTemplate.
+     * @var string|null
      */
     public $apiTemplate;
 
@@ -44,6 +50,7 @@ class BaseMessage
      * (Optional)
      * Atleast one of the following body types must be set: $plainTextBody (with ampBody),
      * $htmlBody (with ampBody), or $apiTemplate.
+     * @var string|null
      */
     public $ampBody;
 
@@ -52,6 +59,7 @@ class BaseMessage
      *
      * (Optional)
      * See https://www.socketlabs.com/blog/best-practices-for-using-custom-mailingids-and-messageids/ for more information.
+     * @var string|null
      */
     public $mailingId;
 
@@ -60,6 +68,7 @@ class BaseMessage
      *
      * (Optional)
      * See https://www.socketlabs.com/blog/best-practices-for-using-custom-mailingids-and-messageids/ for more information.
+     * @var string|null
      */
     public $messageId;
 
@@ -68,11 +77,13 @@ class BaseMessage
      * From address.
      *
      * (Required)
+     * @var EmailAddress|null
      */
     public $from;
 
     /**
      * An optional ReplyTo address for the message.
+     * @var EmailAddress|null
      */
     public $replyTo;
 
@@ -80,11 +91,13 @@ class BaseMessage
      * The optional character set for your message.
      *
      * (Optional) Default is 'utf-8'
+     * @var string|null
      */
     public $charset;
 
     /**
      * Optional array of message attachments.
+     * @var Attachment[]
      */
     public $attachments = array();
 
@@ -108,7 +121,7 @@ class BaseMessage
      *
      * @param string $name Header name.
      * @param string $value Header value.
-     * @return BaseMessage Message Instance.
+     * @return static Message Instance.
      */
     public function addCustomHeader($name, $value)
     {

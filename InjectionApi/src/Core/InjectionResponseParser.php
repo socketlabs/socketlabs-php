@@ -9,31 +9,30 @@ class InjectionResponseParser{
      * Parse the response from theInjection Api into SendResponse
      * @param $response
      * @param $responseHeader
-     * @return SendResponse
+     * @return \Socketlabs\SendResponse
      */
     public static function parse($response, $responseHeader){
-        $newResponse;
-        
+
         if($response){
             $injectionResponse = json_decode($response);
 
             $sendResult = InjectionResponseParser::DetermineSendResult($injectionResponse, $responseHeader);
-    
+
             $newResponse = new \Socketlabs\SendResponse($sendResult);
             $newResponse->transactionReceipt = $injectionResponse->TransactionReceipt;
-    
+
             if($sendResult == 'Warning') {
                  if ($injectionResponse->MessageResults && is_array($injectionResponse->MessageResults) && count($injectionResponse->MessageResults) > 0) {
                     $errorCode = $injectionResponse->MessageResults[0]['ErrorCode'];
-                    $newResponse->Result = $errorCode;
+                    $newResponse->result = $errorCode;
                 }
-            } 
-            
-            if ($injectionResponse->MessageResults && is_array($injectionResponse->MessageResults) && count($injectionResponse->MessageResults) > 0) {
-                $newResponse->AddressResults = $injectionResponse->MessageResults[0]->AddressResults; 
             }
-    
-           
+
+            if ($injectionResponse->MessageResults && is_array($injectionResponse->MessageResults) && count($injectionResponse->MessageResults) > 0) {
+                $newResponse->addressResults = $injectionResponse->MessageResults[0]->AddressResults;
+            }
+
+
         }
         else{
             $sendResult = InjectionResponseParser::DetermineSendResult(null, $responseHeader);
@@ -47,7 +46,7 @@ class InjectionResponseParser{
      * Enumerated SendResult of the payload response from the Injection Api
      * @param $injectionResponse
      * @param $responseHeader
-     * @return SendResult
+     * @return string
      */
     private static function DetermineSendResult($injectionResponse, $responseHeader){
         $headers = InjectionResponseParser::parseHeaders($responseHeader);
@@ -58,23 +57,19 @@ class InjectionResponseParser{
                 // Attempt to convert error code to SendResult enum
                 $errorCode = \Socketlabs\SendResult::get_const($injectionResponse->ErrorCode);
                 if ($errorCode == false) {
-                    return \Socketlabs\SendResult::UnknownError; 
+                    return \Socketlabs\SendResult::UnknownError;
                 } else {
-                    return $errorCode;                   
+                    return $errorCode;
                 }
-                break;
-                
+
             case 500: // 500 Internal Server Error
                 return \Socketlabs\SendResult::InternalError;
-                break;
 
             case 408:  // 408 Request Timeout
                 return \Socketlabs\SendResult::Timeout;
-                break;
-            
+
             case 401: // 401 Unauthorized
                 return \Socketlabs\SendResult::InvalidAuthentication;
-                break;
 
             default:
                 return \Socketlabs\SendResult::UnknownError;
@@ -84,7 +79,7 @@ class InjectionResponseParser{
     /**
      * Helper function to parse headers
      * @param array $headers
-     * @return array 
+     * @return array
      * https://secure.php.net/manual/en/reserved.variables.httpresponseheader.php
      */
     private static function parseHeaders( $headers )

@@ -4,21 +4,23 @@ namespace Socketlabs\Message;
  * Represents an individual email address for a message.
  */
 class EmailAddress{
-    
+
     /**
      * A valid email address
+     * @var string
      */
     public $emailAddress;
 
     /**
      * The friendly or display name for the recipient.
+     * @var string|null
      */
     public $friendlyName;
 
     /**
      * Creates a new instance of the EmailAddress class.
      * @param string $emailAddress
-     * @param string $friendlyName
+     * @param string|null $friendlyName
      */
     public function __construct($emailAddress, $friendlyName = null){
         $this->emailAddress = $emailAddress;
@@ -27,7 +29,7 @@ class EmailAddress{
 
     /**
      * Determines if the Email Address is valid.
-     * @return boolean
+     * @return bool
      */
     public function isValid(){
         $email = $this->emailAddress;

@@ -47,7 +47,7 @@ $message->customHeaders[] = new CustomHeader("testMessageHeader", "I am a messag
 $message->metadata[] = new Metadata("x-mycustommetadata", "I am custom metadata");
 
 //Add tag to message
-$message->tags[] = "Basic-Complex-Example";
+$message->tags[] = "Basic-Complex-Example-PHP";
 
 //Build the Content (Note the %% symbols used to denote the data to be merged)
 $message->htmlBody = "<html>" .

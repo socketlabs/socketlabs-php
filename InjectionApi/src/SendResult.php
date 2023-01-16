@@ -207,7 +207,7 @@ abstract class SendResult
     /**
      * Get a value for a given name
      * @param $name
-     * @return SendResult
+     * @return string|false
      */
     public static function get_const($name)
     {

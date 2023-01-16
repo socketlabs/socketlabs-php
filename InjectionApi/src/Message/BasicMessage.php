@@ -12,22 +12,25 @@ class BasicMessage extends BaseMessage
 
     /**
      * Array of To recipients. When adding directly to array, EmailAddress type should be used.
+     * @var EmailAddress[]
      */
     public $to = array();
 
     /**
      * Array of CC recipients. When adding directly to array, EmailAddress type should be used.
+     * @var EmailAddress[]
      */
     public $cc = array();
 
     /**
      * Array of BCC recipients. When adding directly to array, EmailAddress type should be used.
+     * @var EmailAddress[]
      */
     public $bcc = array();
 
     /**
      * Adds recipient to To address array.
-     * @param string $emailAddress Recipient's email address.
+     * @param string|EmailAddress $emailAddress Recipient's email address.
      * @param string $friendlyName Recipient's friendly name.
      */
     public function addToAddress($emailAddress, $friendlyName = null)
@@ -43,7 +46,7 @@ class BasicMessage extends BaseMessage
 
     /**
      * Adds recipient to CC address array.
-     * @param string $emailAddress Recipient's email address.
+     * @param string|EmailAddress $emailAddress Recipient's email address.
      * @param string $friendlyName Recipient's friendly name.
      */
     public function addCcAddress($emailAddress, $friendlyName = null)
@@ -59,7 +62,7 @@ class BasicMessage extends BaseMessage
 
     /**
      * Adds recipient to BCC address array.
-     * @param string $emailAddress Recipient's email address.
+     * @param string|EmailAddress $emailAddress Recipient's email address.
      * @param string $friendlyName Recipient's friendly name.
      */
     public function addBccAddress($emailAddress, $friendlyName = null)
