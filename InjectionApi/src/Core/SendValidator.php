@@ -2,7 +2,6 @@
 
 namespace Socketlabs\Core;
 
-use Socketlabs\Message\EmailAddress;
 use Socketlabs\Message\BulkRecipient;
 
 /**
@@ -20,7 +19,7 @@ class SendValidator
      * Validate the ServerId and Api Key pair prior before sending to the Injection API.
      * @param string $serverId Your SocketLabs ServerId number.
      * @param string $apiKey Your SocketLabs Injection API key.
-     * @return SendResponse with the validation results
+     * @return \Socketlabs\SendResponse with the validation results
      */
     public static function validateCredentials($serverId, $apiKey)
     {
@@ -41,7 +40,7 @@ class SendValidator
     /**
      * Validate a basic/bulk email message before sending to the Injection API.
      * @param object $message
-     * @return SendResponse with the validation results
+     * @return \Socketlabs\SendResponse with the validation results
      */
     public static function validateMessage($message)
     {
@@ -57,7 +56,7 @@ class SendValidator
     /**
      * Validate a bulk email message.
      * @param object $message
-     * @return SendResponse with the validation results
+     * @return \Socketlabs\SendResponse with the validation results
      */
     private static function validateBulkMessage($message)
     {
@@ -87,7 +86,7 @@ class SendValidator
     /**
      * Validate a basic email message.
      * @param object $message
-     * @return SendResponse with the validation results
+     * @return \Socketlabs\SendResponse with the validation results
      */
     private static function validateBasicMessage($message)
     {
@@ -115,7 +114,7 @@ class SendValidator
     /**
      * Validate the base email message.
      * @param object $message
-     * @return SendResponse with the validation results
+     * @return \Socketlabs\SendResponse with the validation results
      */
     private static function validateBaseMessage($message)
     {
@@ -137,7 +136,7 @@ class SendValidator
     /**
      * Check if the message has a subject
      * @param object $message
-     * @return boolean
+     * @return bool
      */
     private static function hasSubject($message)
     {
@@ -149,7 +148,7 @@ class SendValidator
     /**
      * Check if the message has a valid From Email Address
      * @param object $message
-     * @return boolean
+     * @return bool
      */
     private static function hasValidFrom($message)
     {
@@ -162,7 +161,7 @@ class SendValidator
     /**
      * If set, check if a ReplyTo email address is valid
      * @param object $message
-     * @return boolean
+     * @return bool
      */
     public static function hasValidReplyTo($message)
     {
@@ -178,7 +177,7 @@ class SendValidator
      * If no Api Template is specified the HtmlBody AND the PlainTextBody must be valid
      * </remarks>
      * @param object $message
-     * @return boolean
+     * @return bool
      */
     public static function hasMessageBody($message)
     {
@@ -199,7 +198,7 @@ class SendValidator
     /**
      * Check if an ApiTemplate was specified and is valid
      * @param object $message
-     * @return boolean
+     * @return bool
      */
     public static function hasApiTemplate($message)
     {
@@ -211,7 +210,7 @@ class SendValidator
     /**
      * Check if ICustomHeader in List are valid
      * @param string $customHeaders
-     * @return boolean
+     * @return bool
      */
     public static function hasValidCustomHeaders($message)
     {
@@ -245,7 +244,7 @@ class SendValidator
      * c) Recipients in lists are valid.
      * If errors are found, the SendResponse will contain the invalid email addresses
      * @param array $recipients
-     * @return SendResponse with the validation results
+     * @return \Socketlabs\SendResponse with the validation results
      */
     private static function validateRecipients($recipients)
     {
@@ -263,7 +262,7 @@ class SendValidator
 
     /**
      * Check all 3 recipient lists To, Cc, and Bcc (List of EmailAddress) for valid email addresses
-     * @param string $message
+     * @param \Socketlabs\Message\EmailAddress[] $recipients
      * @return array of AddressResult if an invalid email address is found.
      */
     private static function hasInvalidRecipients($recipients)
