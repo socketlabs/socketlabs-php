@@ -51,7 +51,7 @@ $message->metadata[] = new Metadata("x-my-metadata-2", "I am custom metadata exa
 $message->addMetadata("x-my-metadata-3", "I am custom metadata example #3");
 
 //Add tag to message
-$message->tags[] = "Basic-Complex-Example";
+$message->tags[] = "Basic-Complex-Example-PHP";
 
 //Add an attachment. specify the cid as 'Bus' so it can be embedded
 $attachment = Attachment::createFromPath(__DIR__ . "/../Img/Bus.png", "Bus.png", "IMAGE/PNG", "Bus");

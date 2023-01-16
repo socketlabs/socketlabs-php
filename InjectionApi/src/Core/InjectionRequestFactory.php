@@ -213,7 +213,7 @@ class InjectionRequestFactory
 
         while ($metadata = current($arr)) {
             if (is_a($metadata, "\Socketlabs\Message\Metadata")) {
-                $results[] = new \Socketlabs\Core\Serialization\MetadataJson($metadata->name, $metadata->value);
+                $results[] = new \Socketlabs\Core\Serialization\MetadataJson($metadata->key, $metadata->value);
             } else {
                 $key = key($arr);
                 $results[] = new \Socketlabs\Core\Serialization\MetadataJson($key, $metadata);

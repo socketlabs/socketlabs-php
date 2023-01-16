@@ -257,7 +257,7 @@ class SendValidator
         while ($validMetadata && $metadata = current($arr)) {
             if (is_a($metadata, "Socketlabs\Message\Metadata")) {
                 $validMetadata = $validMetadata &&
-                    SendValidator::not_empty($metadata->name) &&
+                    SendValidator::not_empty($metadata->key) &&
                     SendValidator::not_empty($metadata->value);
             } else {
                 $key = key($arr);

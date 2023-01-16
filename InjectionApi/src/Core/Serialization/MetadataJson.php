@@ -3,16 +3,16 @@
 namespace Socketlabs\Core\Serialization;
 
 /**
- * Represents a metadata as a name and value pair.
+ * Represents a metadata as a key and value pair.
  * To be serialized into JSON string before sending to the Injection Api.
  */
 class MetadataJson
 {
 
     /**
-     * Gets or sets the metadata name.
+     * Gets or sets the metadata key.
      */
-    public $Name;
+    public $Key;
 
     /**
      * Gets or sets the metadata value.
@@ -21,12 +21,12 @@ class MetadataJson
 
     /**
      * Creates a new instance of the MetadataJson class and sets the name and value pair.
-     * @param string $name The name of your metadata.
+     * @param string $Key The key of your metadata.
      * @param string $value The value for your metadata.
      */
-    public function __construct($name, $value)
+    public function __construct($key, $value)
     {
-        $this->Name = $name;
+        $this->Key = $key;
         $this->Value = $value;
     }
 }

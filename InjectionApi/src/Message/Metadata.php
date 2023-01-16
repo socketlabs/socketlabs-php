@@ -9,9 +9,9 @@ class Metadata
 {
 
     /**
-     * The name of the Metadata
+     * The key of the Metadata
      */
-    public $name;
+    public $key;
 
     /**
      * The value of the Metadata
@@ -20,12 +20,12 @@ class Metadata
 
     /**
      * Create a new instance of Metadata
-     * @param string $name
+     * @param string $key
      * @param string $value
      */
-    public function __construct($name, $value)
+    public function __construct($key, $value)
     {
-        $this->name = $name;
+        $this->key = $key;
         $this->value = $value;
     }
 }
