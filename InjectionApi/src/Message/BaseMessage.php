@@ -1,9 +1,12 @@
 <?php
+
 namespace Socketlabs\Message;
+
 /**
  * Contains properties and methods common to all message types.
  */
-class BaseMessage{
+class BaseMessage
+{
 
     /**
      * Message subject.
@@ -35,7 +38,7 @@ class BaseMessage{
      * Api Template Id used to specify a template to be used for the message Id.
      *
      * (Optional)
-      * Atleast one of the following body types must be set: $plainTextBody (with ampBody),
+     * Atleast one of the following body types must be set: $plainTextBody (with ampBody),
      * $htmlBody (with ampBody), or $apiTemplate.
      * @var string|null
      */
@@ -104,18 +107,44 @@ class BaseMessage{
     public $customHeaders = array();
 
     /**
+     * Optional array of custom headers.
+     */
+    public $metadata = array();
+
+    /**
+     * Optional array of custom headers.
+     */
+    public $tags = array();
+
+    /**
      * Adds custom header to the message.
      *
      * @param string $name Header name.
      * @param string $value Header value.
      * @return static Message Instance.
      */
-    public function addCustomHeader($name, $value){
-        if(!is_string($name)) throw new InvalidArgumentException("The custom header name property must be type string.");
-        if(!is_string($value)) throw new InvalidArgumentException("The custom value property must be type string.");
+    public function addCustomHeader($name, $value)
+    {
+        if (!is_string($name)) throw new \InvalidArgumentException("The custom header name property must be type string.");
+        if (!is_string($value)) throw new \InvalidArgumentException("The custom value property must be type string.");
         $customHeader = new CustomHeader($name, $value);
         $this->customHeaders[] = $customHeader;
         return $this;
+    }
 
+    /**
+     * Adds metadata to the message.
+     *
+     * @param string $name metadata name.
+     * @param string $value metadata value.
+     * @return BaseMessage Message Instance.
+     */
+    public function addMetadata($name, $value)
+    {
+        if (!is_string($name)) throw new \InvalidArgumentException("The metadata name property must be type string.");
+        if (!is_string($value)) throw new \InvalidArgumentException("The metadata value property must be type string.");
+        $metadata = new Metadata($name, $value);
+        $this->metadata[] = $metadata;
+        return $this;
     }
 }

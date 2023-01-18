@@ -1,10 +1,13 @@
 <?php
+
 namespace Socketlabs\Core;
+
 /**
  * Used by the Send function of the SocketLabsClient to generate an InjectionRequest for the Injection Api
  */
-class InjectionRequestFactory {
-    
+class InjectionRequestFactory
+{
+
     private $serverId;
     private $apiKey;
 
@@ -24,20 +27,22 @@ class InjectionRequestFactory {
      * @param object $message
      * @return object
      */
-    public function generateRequest($message){
- 
-        if(is_a($message, "Socketlabs\Message\BulkMessage")){
-            return $this->generateBulkRequest($message);
-        } 
-        return $this->generateBasicRequest($message); 
-    } 
+    public function generateRequest($message)
+    {
 
-    /** 
+        if (is_a($message, "Socketlabs\Message\BulkMessage")) {
+            return $this->generateBulkRequest($message);
+        }
+        return $this->generateBasicRequest($message);
+    }
+
+    /**
      * Generate request setting properties common to both message types.
      * @param object $message
      * @return object
      */
-    private function generateRequestCore($message){
+    private function generateRequestCore($message)
+    {
 
         $request = new InjectionRequest($this->serverId, $this->apiKey);
 
@@ -49,6 +54,7 @@ class InjectionRequestFactory {
         $messageJson->MessageId = $message->messageId;
         $messageJson->CharSet = $message->charset;
         $messageJson->ApiTemplate = $message->apiTemplate;
+        $messageJson->Tags = $message->tags == null ? null : $message->tags;
 
         //set attachments
         $messageJson->Attachments = $this->getAttachments($message->attachments);
@@ -56,13 +62,16 @@ class InjectionRequestFactory {
         //set custom headers
         $messageJson->CustomHeaders = $this->getCustomHeaders($message->customHeaders);
 
-        //set from address 
+        //set metadata
+        $messageJson->Metadata = $this->getMetadata($message->metadata);
+
+        //set from address
         $messageJson->From = new \Socketlabs\Core\Serialization\AddressJson($message->from->emailAddress, $message->from->friendlyName);
-        
-        //reply-to is optional, if provided, set it 
-        if($message->replyTo != null)     
+
+        //reply-to is optional, if provided, set it
+        if ($message->replyTo != null)
             $messageJson->ReplyTo = new \Socketlabs\Core\Serialization\AddressJson($message->replyTo->emailAddress, $message->replyTo->friendlyName);
- 
+
         //append message to messages collection. there should only be one
         $request->Messages[] = $messageJson;
 
@@ -74,7 +83,8 @@ class InjectionRequestFactory {
      * @param BasicMessage $basicMessage
      * @return object
      */
-    private function generateBasicRequest($basicMessage){
+    private function generateBasicRequest($basicMessage)
+    {
 
         //populate properties common to all messages
         $request = $this->generateRequestCore($basicMessage);
@@ -84,27 +94,28 @@ class InjectionRequestFactory {
         $messageJson->To = $this->getAddressList($basicMessage->to);
         $messageJson->Cc = $this->getAddressList($basicMessage->cc);
         $messageJson->Bcc = $this->getAddressList($basicMessage->bcc);
- 
+
         //this is important. if PerMessage is set, the api will process this as a bulk style message.
         //$messageJson->MergeData->PerMessage = null;
         unset($messageJson->MergeData);
- 
+
         return $request;
     }
- 
+
     /**
      * Generate request representing a bulk message
      * @param object $bulkMessage
      * @return object
      */
-    private function generateBulkRequest($bulkMessage){
+    private function generateBulkRequest($bulkMessage)
+    {
 
         //populate properties common to all messages
         $request = $this->generateRequestCore($bulkMessage);
         $messageJson = $request->Messages[0];
 
         //magic recipient & friendly name used when sending bulk style
-        $messageJson->To = array(new \Socketlabs\Core\Serialization\AddressJson("%%DeliveryAddress%%","%%Recipient Name%%"));
+        $messageJson->To = array(new \Socketlabs\Core\Serialization\AddressJson("%%DeliveryAddress%%", "%%Recipient Name%%"));
 
         //recipients and merge fields are all sent as merge data
         $messageJson->MergeData->PerMessage = $this->getBulkMergeFields($bulkMessage->to);
@@ -115,20 +126,20 @@ class InjectionRequestFactory {
         return $request;
     }
 
-
     /**
      * Shapes list of email addresses into injection api format
      * @param EmailAddress $emailAddress
      * @return object
      */
-    private function getAddressList($emailAddresses){
-        
-        if($emailAddresses == null)
+    private function getAddressList($emailAddresses)
+    {
+
+        if ($emailAddresses == null)
             return null;
 
         $results = array();
 
-        foreach($emailAddresses as $emailAddress){
+        foreach ($emailAddresses as $emailAddress) {
             $results[] = new \Socketlabs\Core\Serialization\AddressJson($emailAddress->emailAddress, $emailAddress->friendlyName);
         }
         return $results;
@@ -139,22 +150,23 @@ class InjectionRequestFactory {
      * @param array $attachment
      * @return array
      */
-    private function getAttachments($attachments){
-        if($attachments == null)
+    private function getAttachments($attachments)
+    {
+        if ($attachments == null)
             return null;
-        
+
         $results = array();
 
-        foreach($attachments as $attachment){
-             
-            $target = new \Socketlabs\Message\Attachment();
+        foreach ($attachments as $attachment) {
+
+            $target = new \Socketlabs\Core\Serialization\AttachmentJson();
             $target->Name = $attachment->name;
             $target->ContentType = $attachment->mimeType;
             $target->ContentId = $attachment->contentId;
-            $target->Content = base64_encode( $attachment->content);
+            $target->Content = base64_encode($attachment->content);
 
             //map custom headers
-            $target->customHeaders = $this->getCustomHeaders($attachment->customHeaders);
+            $target->CustomHeaders = $this->getCustomHeaders($attachment->customHeaders);
 
             $results[] = $target;
         }
@@ -167,57 +179,83 @@ class InjectionRequestFactory {
      * @param array $customHeader
      * @return array
      */
-    private function getCustomHeaders($customHeaders){
-        if($customHeaders == null) return null;
+    private function getCustomHeaders($customHeaders)
+    {
+
+        if ($customHeaders == null) return null;
 
         $results = array();
 
-        while($customHeader = current($customHeaders)){
-            if(is_a($customHeader, "CustomHeader")){
+        while ($customHeader = current($customHeaders)) {
+            if (is_a($customHeader, "\Socketlabs\Message\CustomHeader")) {
                 $results[] = new \Socketlabs\Core\Serialization\CustomHeadersJson($customHeader->name, $customHeader->value);
-            }
-            else{
+            } else {
                 $key = key($customHeaders);
                 $results[] = new \Socketlabs\Core\Serialization\CustomHeadersJson($key, $customHeader);
-            }  
-            next($customHeaders);  
+            }
+            next($customHeaders);
         }
-        
+
+        return $results;
+    }
+
+    /**
+     * Helper function to map array of Metadata to MetadataJson
+     * @param array $arr
+     * @return array
+     */
+    private function getMetadata($arr)
+    {
+
+        if ($arr == null) return null;
+
+        $results = array();
+
+        while ($metadata = current($arr)) {
+            if (is_a($metadata, "\Socketlabs\Message\Metadata")) {
+                $results[] = new \Socketlabs\Core\Serialization\MetadataJson($metadata->key, $metadata->value);
+            } else {
+                $key = key($arr);
+                $results[] = new \Socketlabs\Core\Serialization\MetadataJson($key, $metadata);
+            }
+            next($arr);
+        }
+
         return $results;
     }
 
     /**
      * Shape bulk recipients and their merge data into the format needed for the injection api
-     * @param object $bulkRecipients 
+     * @param object $bulkRecipients
      * @return array
      */
-    private function getBulkMergeFields($bulkRecipients){
+    private function getBulkMergeFields($bulkRecipients)
+    {
 
         $allRecipients = array();
 
         //loop through each recipient
-        foreach ($bulkRecipients as $bulkRecipient){
+        foreach ($bulkRecipients as $bulkRecipient) {
 
             //add address
             $recipientMergeFields = array();
             $recipientMergeFields[] = new \Socketlabs\Core\Serialization\MergeFieldJson("DeliveryAddress", $bulkRecipient->emailAddress);
- 
-            //add friendly name if provided  
-            if($bulkRecipient->friendlyName != null)
+
+            //add friendly name if provided
+            if ($bulkRecipient->friendlyName != null)
                 $recipientMergeFields[] = new \Socketlabs\Core\Serialization\MergeFieldJson('RecipientName', $bulkRecipient->friendlyName);
 
-            
+
             //if merge fields provided, add them as well
-            if($bulkRecipient->mergeData != null){
-                foreach($bulkRecipient->mergeData as $mergeData){
+            if ($bulkRecipient->mergeData != null) {
+                foreach ($bulkRecipient->mergeData as $mergeData) {
                     $recipientMergeFields[] = new \Socketlabs\Core\Serialization\MergeFieldJson($mergeData->Name, $mergeData->Value);
                 }
             }
 
             //add recipient merge data to the results
             array_push($allRecipients, $recipientMergeFields);
-
-        } 
+        }
         return $allRecipients;
     }
 
@@ -226,18 +264,17 @@ class InjectionRequestFactory {
      * @param object $globalMergeData merge data array
      * @return array
      */
-    private function getGlobalMergeFields($globalMergeData){
+    private function getGlobalMergeFields($globalMergeData)
+    {
 
-        if($globalMergeData == null)
+        if ($globalMergeData == null)
             return null;
 
         $results = array();
 
-        foreach($globalMergeData as $mergeData){
+        foreach ($globalMergeData as $mergeData) {
             $results[] = new \Socketlabs\Core\Serialization\MergeFieldJson($mergeData->Name, $mergeData->Value);
         }
         return $results;
     }
-
-
 }

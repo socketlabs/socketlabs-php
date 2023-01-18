@@ -1,9 +1,13 @@
 <?php
+
 /**
  * Enumerated result of the client send
  */
+
 namespace Socketlabs;
-abstract class SendResult{
+
+abstract class SendResult
+{
 
     /**
      * An error has occured that was unforeseen
@@ -191,16 +195,26 @@ abstract class SendResult{
     const MessageValidationInvalidCustomHeaders = "MessageValidationInvalidCustomHeaders";
 
     /**
+     * Invalid metadata found
+     */
+    const MessageValidationInvalidMetadata = "MessageValidationInvalidMetadata";
+
+    /**
+     * Invalid metadata found
+     */
+    const MessageValidationInvalidTag = "MessageValidationInvalidTag";
+
+    /**
      * Get a value for a given name
      * @param $name
      * @return string|false
      */
-    public static function get_const($name) {
-        $constant = 'self::'.$name;
-        if(defined($constant)) {
+    public static function get_const($name)
+    {
+        $constant = 'self::' . $name;
+        if (defined($constant)) {
             return constant($constant);
-        }
-        else {
+        } else {
             return false;
         }
     }
