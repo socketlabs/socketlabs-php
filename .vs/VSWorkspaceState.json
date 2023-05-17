@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\InjectionApi",
+    "\\InjectionApi\\Examples",
+    "\\InjectionApi\\Examples\\ExampleCode",
+    "\\InjectionApi\\Examples\\ExampleCode\\Basic",
+    "\\InjectionApi\\Examples\\Index",
+    "\\InjectionApi\\Examples\\Index\\Js",
+    "\\InjectionApi\\src",
+    "\\InjectionApi\\src\\Core",
+    "\\InjectionApi\\src\\Core\\Models"
+  ],
+  "SelectedNode": "\\InjectionApi\\Examples\\Index\\Js\\Index.js",
+  "PreviewInSolutionExplorer": false
+}

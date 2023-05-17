@@ -19,7 +19,7 @@ class SocketLabsClient{
         private $serverId;
         private $apiKey;
 
-        const VERSION = "1.2.2";
+        const VERSION = "1.4.1";
         public $version = self::VERSION;
 
         /**
@@ -66,10 +66,21 @@ class SocketLabsClient{
                 $validationResult = Core\SendValidator::validateMessage($message);
                 if($validationResult->result != \Socketlabs\SendResult::Success) return $validationResult;
 
+
                 $factory = new Core\InjectionRequestFactory($this->serverId, $this->apiKey);
                 $newRequest = $factory->generateRequest($message);
 
                 $options = $this->createStreamOptions($newRequest);
+
+                $apiKeyParser = new Core\ApiKeyParser();
+
+                $parseResult = $apiKeyParser->parse($this->apiKey);
+
+                if ($parseResult === Core\Enums\ApiKeyParseResultCode::Success)
+                {
+                    $options[0]['header'] .= '\r\n'.'Authorization: Bearer '.$this->apiKey;
+                    $this->apiKey = null;
+                }
 
                 $retrySettings = new RetrySettings($this->numberOfRetries);
                 $retryHandler = new Core\RetryHandler($options, $this->endpointUrl, $retrySettings);
