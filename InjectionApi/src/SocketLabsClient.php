@@ -70,17 +70,24 @@ class SocketLabsClient{
                 $factory = new Core\InjectionRequestFactory($this->serverId, $this->apiKey);
                 $newRequest = $factory->generateRequest($message);
 
-                $options = $this->createStreamOptions($newRequest);
 
                 $apiKeyParser = new Core\ApiKeyParser();
 
                 $parseResult = $apiKeyParser->parse($this->apiKey);
 
-                if ($parseResult === Core\Enums\ApiKeyParseResultCode::Success)
+                $options;
+
+                if ($parseResult === Core\ApiKeyParseResult::Success)
                 {
-                    $options[0]['header'] .= '\r\n'.'Authorization: Bearer '.$this->apiKey;
-                    $this->apiKey = null;
+                    $options = $this->createStreamOptions($newRequest, $this->apiKey);
                 }
+                else {
+
+                    $options = $this->createStreamOptions($newRequest, '');
+                }
+
+                $debug_export = var_export($options, true);
+                error_log($debug_export);
 
                 $retrySettings = new RetrySettings($this->numberOfRetries);
                 $retryHandler = new Core\RetryHandler($options, $this->endpointUrl, $retrySettings);
@@ -104,18 +111,24 @@ class SocketLabsClient{
          * Helper function to create the stream options
          * @param $injectionRequest
          */
-        private function createStreamOptions($injectionRequest){
-             $http = array(
-                'method' => 'POST',
-                'header' => 'Content-type: application/json',
-                'content' => json_encode($injectionRequest),
-                'timeout' => $this->requestTimeout
-             );
+        private function createStreamOptions($injectionRequest, $bearerToken){
 
-             //proxy not enabled, return these simple options
-             if($this->proxyUrl == null){
-                return array('http' => $http);
-             }
+                $header = array('Content-type: application/json');
+                if (strlen($bearerToken) > 0) {
+                        $header = array('Content-type: application/json', 'Authorization: Bearer '.$bearerToken);
+                        $injectionRequest->ApiKey = '';
+                }
+                $http = array(
+                        'method' => 'POST',
+                        'header' => $header,
+                        'content' => json_encode($injectionRequest),
+                        'timeout' => $this->requestTimeout
+                );
+
+                //proxy not enabled, return these simple options
+                if($this->proxyUrl == null){
+                        return array('http' => $http);
+                }
 
                 //shape proxy url to use 'tcp'
                 $tcpUrl = str_replace('https', 'tcp', $this->proxyUrl);
@@ -123,19 +136,19 @@ class SocketLabsClient{
                 //set proxy
                 $http += ['proxy' => $tcpUrl];
 
-             //include ssl options
-             return array(
-                    "http" => $http
-                    // If you are having trouble configuring a proxy tool such as fiddler, this can be a quick fix,
-                    // but it is not recommended for production. The best way is to configure the appropriate certificate
-                    // authority property in your php.ini, for example: 'openssl.cafile'
+                //include ssl options
+                return array(
+                        "http" => $http
+                        // If you are having trouble configuring a proxy tool such as fiddler, this can be a quick fix,
+                        // but it is not recommended for production. The best way is to configure the appropriate certificate
+                        // authority property in your php.ini, for example: 'openssl.cafile'
 
-                    //Proxy Quick Fix:
-                    //,
-                    //"ssl"=> array(
-                    //        "verify_peer"=>false,
-                    //        "verify_peer_name"=>false,
-                    //)
-             );
+                        //Proxy Quick Fix:
+                        //,
+                        //"ssl"=> array(
+                        //        "verify_peer"=>false,
+                        //        "verify_peer_name"=>false,
+                        //)
+                );
         }
 }

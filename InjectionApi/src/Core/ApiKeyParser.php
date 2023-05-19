@@ -4,67 +4,58 @@ namespace Socketlabs\Core;
  *  Contains the method for parsing the Api Key.
  */
 class ApiKeyParser {
-    
+
     /** Parse the API key to determine what kind of key was provided
     . */
     public function parse($wholeApiKey)
     {
+
         if ($wholeApiKey == null || trim($wholeApiKey) == '')
         {
-            $result = ApiKeyParseResultCode::InvalidEmptyOrWhitespace;
+            $result = ApiKeyParseResult::InvalidEmptyOrWhitespace;
             return $result;
         }
 
         if (strlen($wholeApiKey) !== 61)
         {
-            $result = ApiKeyParseResultCode::InvalidKeyLength;
+            $result = ApiKeyParseResult::InvalidKeyLength;
             return $result;
         }
-        
+
         $splitPosition = strpos($wholeApiKey, '.');
 
         if ($splitPosition === false)
         {
-            $result = ApiKeyParseResultCode::Invalid;
+            $result = ApiKeyParseResult::Invalid;
             return $result;
         }
 
         //extract the public part
-
         $maxCount = min(50, strlen($wholeApiKey));
 
         if ($splitPosition === false)
         {
-            $result = ApiKeyParseResultCode::InvalidUnableToExtractPublicPart;
+            $result = ApiKeyParseResult::InvalidUnableToExtractPublicPart;
             return $result;
         }
 
-        $firstSection = substr($wholeApiKey,0, 50);
-        $publicPartEnd = substr($firstSection, 0, $splitPosition);
-
-        $publicPart = substr($wholeApiKey, 0, $publicPartEnd);
+        $publicPart = substr($wholeApiKey,0, $splitPosition);
 
         if (strlen($publicPart) !== 20)
         {
-            $result = ApiKeyParseResultCode::InvalidPublicPartLength;
+            $result = ApiKeyParseResult::InvalidPublicPartLength;
             return $result;
         }
 
-        if (strlen($wholeApiKey) <= $publicPartEnd + 1)
-        {
-            $result = ApiKeyParseResultCode::InvalidUnableToExtractSecretPart;
-            return $result;
-        }
-        
-        $privatePart = substr($wholeApiKey, $publicPartEnd +1);
-        
+        $privatePart = substr($wholeApiKey, ($splitPosition + 1), strlen($wholeApiKey));
+
         if (strlen($privatePart) !== 40)
         {
-            $result = ApiKeyParseResultCode::InvalidSecretPartLength;
+            $result = ApiKeyParseResult::InvalidSecretPartLength;
             return $result;
         }
 
-        $result = ApiKeyParseResultCode::Success;
+        $result = ApiKeyParseResult::Success;
         return $result;
     }
 }

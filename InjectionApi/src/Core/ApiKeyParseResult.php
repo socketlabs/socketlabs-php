@@ -1,44 +1,46 @@
 <?php
-namespace Socketlabs\Core\Enums;
+
+namespace Socketlabs\Core;
 
 /**
  *  A code describing the result of an attempt to parse an Api key.
  */
-    enum ApiKeyParseResult {
-	    /// <summary>
+abstract class ApiKeyParseResult
+{
+        /// <summary>
         /// No result could be produced.
         /// </summary>
-        case None;
+        const None = "None";
         /// <summary>
         /// The key was found to be the improper length.
         /// </summary>
-        case InvalidKeyLength;
+        const InvalidKeyLength = "InvalidKeyLength";
         /// <summary>
         /// The key was found to be blank or invalid.
         /// </summary>
-        case InvalidEmptyOrWhitespace;
+        const InvalidEmptyOrWhitespace = "InvalidEmptyOrWhitespace";
         /// <summary>
         /// The key was found to be blank or invalid.
         /// </summary>
-        case Invalid;
+        const Invalid = "Invalid";
         /// <summary>
         /// The public portion of the key was unable to be parsed.
         /// </summary>
-        case InvalidUnableToExtractPublicPart;
+        const InvalidUnableToExtractPublicPart = "InvalidUnableToExtractPublicPart";
         /// <summary>
         /// The secret portion of the key was unable to be parsed.
         /// </summary>
-        case InvalidUnableToExtractSecretPart;
+        const InvalidUnableToExtractSecretPart = "InvalidUnableToExtractSecretPart";
         /// <summary>
         /// The public portion of the key has an invalid length.
         /// </summary>
-        case InvalidPublicPartLength;
+        const InvalidPublicPartLength = "InvalidPublicPartLength";
         /// <summary>
         /// The secret portion of the key has an invalid length.
         /// </summary>
-        case InvalidSecretPartLength;
+        const InvalidSecretPartLength = "InvalidSecretPartLength";
         /// <summary>
         /// Key was successfully parsed.
         /// </summary>
-        case Success;
+        const Success = "Success";
 }
