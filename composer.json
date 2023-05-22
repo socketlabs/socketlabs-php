@@ -28,6 +28,12 @@
             "email": "developers@socketlabs.com",
             "homepage": "https://www.socketlabs.com",
             "role": "Developer/Contributor"
+        },
+        {
+            "name": "Mike Boshuyzen",
+            "email": "developers@socketlabs.com",
+            "homepage": "https://www.socketlabs.com",
+            "role": "Developer"
         }
     ],
     "require": {
