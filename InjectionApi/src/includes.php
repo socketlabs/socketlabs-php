@@ -1,9 +1,12 @@
 <?php
 if (!defined('SOCKETLABS_INJECTION_API_ROOT_PATH')) define('SOCKETLABS_INJECTION_API_ROOT_PATH', dirname(__DIR__));
 
+include_once(SOCKETLABS_INJECTION_API_ROOT_PATH . "/src/Core/ApiKeyParser.php");
+include_once(SOCKETLABS_INJECTION_API_ROOT_PATH . "/src/Core/ApiKeyParseResult.php");
 include_once(SOCKETLABS_INJECTION_API_ROOT_PATH . "/src/Core/InjectionRequest.php");
 include_once(SOCKETLABS_INJECTION_API_ROOT_PATH . "/src/Core/RetryHandler.php");
 include_once(SOCKETLABS_INJECTION_API_ROOT_PATH . "/src/Core/InjectionRequestFactory.php");
+include_once(SOCKETLABS_INJECTION_API_ROOT_PATH . "/src/Core/ApiKeyParser.php");
 include_once(SOCKETLABS_INJECTION_API_ROOT_PATH . "/src/Core/InjectionResponseParser.php");
 include_once(SOCKETLABS_INJECTION_API_ROOT_PATH . "/src/Core/SendValidator.php");
 
