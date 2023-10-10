@@ -118,6 +118,9 @@ class SendResponse{
                 case \Socketlabs\SendResult::InvalidMergeData:
                     return "Invalid MergeData was found on the message";
 
+                case \Socketlabs\SendResult::MetadataOrTagsAreTooLarge:
+                    return "Metadata and tags exceed 12.5KB";
+
                 case \Socketlabs\SendResult::AuthenticationValidationFailed:
                     return "SDK Validation Error : Authentication Validation Failed, Missing or invalid ServerId or ApiKey";
 

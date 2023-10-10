@@ -140,6 +140,11 @@ abstract class SendResult
     const InvalidMergeData = "InvalidMergeData";
 
     /**
+     * Metadata and tags exceed 12.5KB
+     */
+    const MetadataOrTagsAreTooLarge = "MetadataOrTagsAreTooLarge";
+
+    /**
      * Authentication Error, Missing or invalid ServerId or ApiKey
      */
     const AuthenticationValidationFailed = "AuthenticationValidationFailed";
