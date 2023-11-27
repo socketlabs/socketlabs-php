@@ -19,7 +19,7 @@ class SocketLabsClient{
         private $serverId;
         private $apiKey;
 
-        const VERSION = "1.4.2";
+        const VERSION = "1.4.4";
         public $version = self::VERSION;
 
         /**
@@ -85,9 +85,6 @@ class SocketLabsClient{
 
                     $options = $this->createStreamOptions($newRequest, '');
                 }
-
-                $debug_export = var_export($options, true);
-                error_log($debug_export);
 
                 $retrySettings = new RetrySettings($this->numberOfRetries);
                 $retryHandler = new Core\RetryHandler($options, $this->endpointUrl, $retrySettings);
