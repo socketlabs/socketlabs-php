@@ -199,6 +199,7 @@ For more information about AMP please see [AMP Project](https://amp.dev/document
 
 <a name="version"></a>
 # Version
+* 1.4.5 - Adding error handling on RetryHandler
 * 1.4.4 - Removed Debugging Code
 * 1.4.3 - Added MetadataOrTagsAreTooLarge error messsage
 * 1.4.2 - Adding API Key Authorization

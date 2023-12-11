@@ -9,7 +9,8 @@ use Socketlabs\Message\Metadata;
 use Socketlabs\Message\BasicMessage;
 
 $client = new SocketLabsClient(exampleConfig::serverId(), exampleConfig::password());
-//$client->proxyUrl = exampleConfig::proxy();  //Uncomment to configure a proxy such as fiddler
+// $client->proxyUrl = exampleConfig::proxy();  //Uncomment to configure a proxy
+// $client->exampleConfig::endpoint()  //Uncomment to configure a different endpoint address
 
 //Build the message
 $message = new BasicMessage();

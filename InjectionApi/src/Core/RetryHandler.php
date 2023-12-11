@@ -23,7 +23,13 @@ class RetryHandler{
 
             $context = stream_context_create($this->httpClient);
             $response = @file_get_contents($this->endpointUrl, FALSE, $context);
-            return array($response, $http_response_header);
+
+            if (isset($http_response_header)) {
+                return array($response, $http_response_header);
+            }
+            else {
+                return array($response);
+            }
 
         }
 
