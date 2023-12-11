@@ -10,7 +10,7 @@ use Socketlabs\Message\BasicMessage;
 
 $client = new SocketLabsClient(exampleConfig::serverId(), exampleConfig::password());
 // $client->proxyUrl = exampleConfig::proxy();  //Uncomment to configure a proxy
-// $client->exampleConfig::endpoint()  //Uncomment to configure a different endpoint address
+// $client->endpoint = exampleConfig::endpoint()  //Uncomment to configure a different endpoint address
 
 //Build the message
 $message = new BasicMessage();
